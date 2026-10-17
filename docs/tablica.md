@@ -27,7 +27,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 - Dane Studio: Firestore `data/stats` po K10 (12.10). Do odświeżenia po K11 (Wisła 0:0 jest w bazie) i po meczach K11 z 17–19.10. Metoda: `statystyki-odswiezenie-k10.md`.
 - Zadanie zaplanowane do ustawienia: sprawdzenie bazy 30 min po meczu Widzewa (ponawiać co godzinę).
 - **Wysyłka na Discord tylko po zatwierdzeniu Bartka** (od 17.10): Claude pokazuje ostateczne wersje w czacie i czeka na „tak”.
-- Przeniesienie do Claude Code (17.10): prywatne repo `rts-workspace` (ten), środowisko `RTS`, sekrety w zmiennych (`../ZMIENNE.md`). Webhooki Discorda do unieważnienia i wygenerowania na nowo.
+- Przeniesienie do Claude Code (17.10): prywatne repo `rts-workspace` (ten), środowisko `RTS`, sekrety w zmiennych (`../ZMIENNE.md`). Webhooki Discorda unieważnione i wygenerowane na nowo (nazwy „… 2”), sprawdzone 17.10 odczytem GET: wszystkie 3 działają, kanały zgodne.
 - Rename brandu na RTS Stats Studio (RSS) wdrożony 17.10 (commit `4f5dbb3` w `hooday-lab/rtsstat`).
 
 ## Skrzynki (otwarte)
@@ -37,6 +37,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 - **Obieg:** paczka 1 Górnika; decyzja o fazie 4 #377.
 
 ## Log ustaleń (najnowsze na górze)
+- **17.10.2026 (webhooki):** nowe webhooki „RTS Gotowiec 2”, „RTS Klipy 2”, „Analizator odcinka 2” zweryfikowane odczytem (HTTP 200, kanały zgodne z `integracje.md`); w zmiennych miały dopisane nawiasy `<…>` (KLIPY także spację), co psuło URL. Nic nie wysłano.
 - **17.10.2026 (później):** decyzja Bartka: (1) **nic nie wychodzi samo**: wiadomości do Patryka na Discord wysyłane wyłącznie po jego zatwierdzeniu ostatecznych wersji (`zasady-paczek.md` pkt 7); (2) hasztag serii zmieniony z #RTSstat na **#RTSstats** (dokumenty, Studio, karty); (3) plan przeniesienia brakujących plików z claude.ai: `docs/plan-migracji-plikow.md`.
 - **17.10.2026:** przeniesienie do Claude Code; nazwa RTS Stats Studio (RSS); dokumenty kopiowane do prywatnego repo bez webhooków.
 - **16.10.2026:** faza 3 #377 po 0:0 (wysłana ok. 22:50): karta „Mecz" z posiadaniem, strzałami, rożnymi i xG; Wisła nie wykorzystała karnego w 66. min; Widzew po K11: 1W-7R-3P, 10 pkt, u siebie 0-4-2, ósmy mecz bez wygranej. Zasada 5: bez próśb o typowanie. Zapowiedź live + faza 2 wysłane ok. 12:50. Poprawka: curl z `--form-string payload_json=...`.
