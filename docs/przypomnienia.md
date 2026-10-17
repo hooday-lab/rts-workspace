@@ -18,3 +18,10 @@ Treści zadań (prompty) odsyłają do dokumentów projektu; nowe zasady dopisuj
 
 ## Do zrobienia po przeniesieniu do Claude Code (17.10.2026)
 - Sprawdzenie danych 30 min po meczu Widzewa (ponawiaj co godzinę do skutku) i odświeżenie Firestore `data/stats` (metoda delta, `statystyki-odswiezenie-k10.md`).
+
+## Zadania zaplanowane ustawione 17.10.2026 (chmura, bez komputera)
+| Zadanie | Kiedy | Co robi |
+| --- | --- | --- |
+| RTS: kolejka 11 kompletna, odświeżenie Studio | wt. 20.10, 09:00 (CEST) | sprawdza, czy wszystkie 9 meczów K11 jest FT w bazie; push do Bartka; ponawia co 3 h (maks. 4 próby). Na 17.10 w bazie są tylko 2 mecze K11 (Wieczysta–Raków, Widzew–Wisła 0:0) |
+| RTS: sprawdzenie bazy po meczu z Górnikiem | pt. 23.10, 23:00 (CEST) | sprawdza, czy Widzew–Górnik jest FT; push z wynikiem; ponawia co godzinę (maks. 6 prób). Godzina meczu 23.10 niepotwierdzona (zakładane 20:30) |
+Zadania nic nie publikują i nie wysyłają na Discorda. Wpis do Firestore `data/stats` nadal wymaga sesji z Chrome Bartka.
