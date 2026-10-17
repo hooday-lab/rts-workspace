@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    function mail() { return request.auth.token.email.lower(); }
+    function isAdmin() {
+      return signedIn() && (
+        mail() == 'hooday@gmail.com' ||
+        (exists(/databases/$(database)/documents/members/$(mail())) &&
+         get(/databases/$(database)/documents/members/$(mail())).data.role == 'admin'));
+    }
+    function isMember() {
+      return signedIn() && (isAdmin() || exists(/databases/$(database)/documents/members/$(mail())));
+    }
+    match /members/{id} {
+      allow read: if signedIn() && (id == mail() || isAdmin());
+      allow write: if isAdmin();
+    }
+    match /data/{id} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+    match /settings/{id} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+  }
+}

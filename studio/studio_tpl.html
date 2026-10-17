@@ -1,0 +1,686 @@
+<title>RTSstat Studio</title>
+<style>
+:root{--bg:#F5F3F0;--panel:#FFFFFF;--ink:#17181B;--mute:#6A6D75;--line:#DAD6D0;--red:#D91E25;--red-ink:#FFFFFF;--soft:#EDE9E4;--ok:#1E7A46}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1012;--panel:#18191C;--ink:#F4F4F2;--mute:#9A9DA5;--line:#2B2D32;--red:#E5242B;--red-ink:#FFFFFF;--soft:#222428;--ok:#4CC27F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1012;--panel:#18191C;--ink:#F4F4F2;--mute:#9A9DA5;--line:#2B2D32;--red:#E5242B;--red-ink:#FFFFFF;--soft:#222428;--ok:#4CC27F;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;padding-inline:16px;padding-block:0 40px}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:0;text-wrap:balance}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;border-bottom:3px solid var(--red);margin-bottom:16px;flex-wrap:wrap}
+.brand{font:800 26px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.brand b{color:var(--red)}
+.who{display:flex;gap:10px;align-items:center;color:var(--mute);font-size:14px}
+.badge{background:var(--red);color:var(--red-ink);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.wrap{max-width:1280px;margin-inline:auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:700 15px 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border-radius:6px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.work{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.work{grid-template-columns:minmax(0,1fr)}.pvcol{order:-1}}
+.ctl,.card-box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.pvcol{display:flex;flex-direction:column;gap:12px;min-width:0;position:sticky;top:8px}
+@media (max-width:860px){.pvcol{position:static}}
+.frame{background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;width:100%;border:1px solid var(--line)}
+.frame img{display:block;width:100%;height:100%}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mute);font-weight:600;letter-spacing:.02em}
+label.f span.hint{font-weight:400}
+input[type=text],input[type=number],select,textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:700 15px 'Barlow',system-ui,sans-serif;padding:10px 14px;border-radius:6px;cursor:pointer}
+.btn.pri{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.sm{padding:5px 10px;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;flex-direction:column;gap:6px}
+.chip{appearance:none;text-align:left;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:inherit;font-size:14px;padding:8px 10px;border-radius:6px;cursor:pointer;line-height:1.3}
+.chip:hover{border-color:var(--red)}
+.chip small{display:block;color:var(--mute);font-size:12.5px}
+.sec{font:800 15px 'Barlow Condensed','Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin-top:4px}
+.checks{display:flex;flex-wrap:wrap;gap:6px 14px}
+.checks label{display:flex;gap:6px;align-items:center;font-size:14px}
+.msg{font-size:13px;color:var(--mute)}
+.msg.ok{color:var(--ok)}
+.msg.err{color:var(--red)}
+.gate{max-width:440px;margin:40px auto;display:flex;flex-direction:column;gap:12px}
+.gate h2{font-size:34px}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th,table.t td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.scroll{overflow-x:auto}
+.code{font:700 15px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em}
+.admin{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.mini{width:100%;max-width:360px;aspect-ratio:16/9;border:1px solid var(--line);border-radius:6px;object-fit:cover;background:#000}
+</style>
+
+<div class="wrap">
+<header class="top"><div class="brand">RTS<b>stat</b> Studio</div><div class="who" id="who"></div></header>
+<div id="boot" class="msg">Ładuję dane…</div>
+<section id="gate" class="gate" hidden>
+  <h2>Wejście dla ekipy</h2>
+  <p class="msg">Wpisz kod, który dostałeś od admina na WhatsAppie, i swój nick. Zapamiętamy to na tym urządzeniu.</p>
+  <label class="f">Kod<input type="text" id="g-code" autocomplete="off" placeholder="np. RTS-7K2Q"></label>
+  <label class="f">Twój nick<input type="text" id="g-nick" autocomplete="off" placeholder="np. Marek"></label>
+  <div class="actions"><button class="btn pri" id="g-go">Wchodzę</button></div>
+  <div class="msg" id="g-msg"></div>
+</section>
+<section id="studio" hidden>
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <div id="view"></div>
+</section>
+</div>
+
+<script>
+"use strict";
+const FONTS=__FONTS__;
+const D=__DATA__;
+const BG_DEFAULT="data:image/jpeg;base64,__BG__";
+
+/* ---------- pomocnicze ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function el(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild}
+function pl(n,f){n=Math.abs(n);if(n===1)return f[0];const a=n%10,b=n%100;return(a>=2&&a<=4&&!(b>=12&&b<=14))?f[1]:f[2]}
+const fmt=(v,d=1)=>(Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d).replace('.',',');
+const WEEK=['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota'];
+function warsaw(s){ // "2026-10-11T12:45" (UTC) -> parts w strefie Warszawy
+  const d=new Date(s+(s.length<=16?':00':'')+'Z');
+  const f=new Intl.DateTimeFormat('pl-PL',{timeZone:'Europe/Warsaw',weekday:'long',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d);
+  const g=t=>f.find(x=>x.type===t).value;
+  return {wd:g('weekday'),dm:g('day')+'.'+g('month'),hm:g('hour')+':'+g('minute')};
+}
+
+/* ---------- dane ---------- */
+const T={};D.teams.forEach(([id,full,short])=>T[id]={id,full,short});
+const byFull={};Object.values(T).forEach(t=>byFull[t.full]=t.id);
+const WID=6962;
+const played=D.fx.filter(f=>f[9]==='FT');
+const lastRound=D.meta.lastRound;
+const fxById={};D.fx.forEach(f=>fxById[f[0]]=f);
+const ts={};D.tstats.forEach(r=>ts[r[0]+'_'+r[1]]=r);
+const sn=id=>T[id]?T[id].short:String(id);
+function tm(t){
+  return played.filter(f=>f[3]===t||f[4]===t).map(f=>{
+    const home=f[3]===t,gf=home?f[5]:f[6],ga=home?f[6]:f[5];
+    return {id:f[0],k:f[1],opp:home?f[4]:f[3],home,gf,ga,res:gf>ga?'W':gf<ga?'P':'R'};
+  }).sort((a,b)=>a.k-b.k);
+}
+const TM={};Object.keys(T).forEach(id=>TM[id]=tm(+id));
+function agg(t){
+  const m=TM[t]||[];const P=m.length;
+  const o={P,W:0,R:0,L:0,GF:0,GA:0,CS:0,pts:0};
+  m.forEach(x=>{o.GF+=x.gf;o.GA+=x.ga;if(x.res==='W'){o.W++;o.pts+=3}else if(x.res==='R'){o.R++;o.pts+=1}else o.L++;if(x.ga===0)o.CS++});
+  const s={poss:0,shots:0,on:0,corners:0,fouls:0,yellow:0,pct:0,xg:0,xga:0};let n=0,np=0,nx=0;
+  m.forEach(x=>{const r=ts[x.id+'_'+t],ro=ts[x.id+'_'+x.opp];if(!r)return;n++;
+    s.poss+=r[2]||0;s.shots+=r[3]||0;s.on+=r[4]||0;s.corners+=r[5]||0;s.fouls+=r[6]||0;s.yellow+=r[7]||0;
+    if(r[11]!=null){s.pct+=r[11];np++}
+    if(r[12]!=null){s.xg+=r[12];nx++}
+    if(ro&&ro[12]!=null)s.xga+=ro[12]});
+  o.n=n;o.avg={poss:s.poss/n,shots:s.shots/n,on:s.on/n,corners:s.corners/n,fouls:s.fouls/n,yellow:s.yellow/n,pct:s.pct/(np||1),xg:s.xg/(nx||1),xga:s.xga/(nx||1),gf:o.GF/P,ga:o.GA/P,pts:o.pts/P};
+  return o;
+}
+const AG={};Object.keys(T).forEach(id=>AG[id]=agg(+id));
+const nextOpp=(()=>{
+  const u=D.upcoming.find(x=>x[2]==='Widzew Łódź'||x[3]==='Widzew Łódź');
+  if(!u)return null;const o=u[2]==='Widzew Łódź'?u[3]:u[2];return byFull[o]||null;
+})();
+function upcomingFor(a,b){
+  const A=T[a].full,B=T[b].full;
+  return D.upcoming.find(x=>(x[2]===A&&x[3]===B)||(x[2]===B&&x[3]===A))||null;
+}
+const teamOpts=()=>Object.values(T).sort((a,b)=>a.short.localeCompare(b.short,'pl')).map(t=>[t.id,t.short]);
+
+/* ---------- fonty i pomiar tekstu ---------- */
+const RANGES={latin:"U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+ ext:"U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"};
+const FAMS={BC:'Barlow Condensed',BA:'Barlow'};
+let SVG_FONT_CSS='';
+async function loadFonts(){
+  SVG_FONT_CSS=FONTS.map(f=>`@font-face{font-family:'${f.fam}';font-weight:${f.w};src:url(data:font/woff2;base64,${f.b}) format('woff2');unicode-range:${RANGES[f.r]}}`).join('');
+  const st=document.createElement('style');
+  st.textContent=FONTS.map(f=>`@font-face{font-family:'${FAMS[f.fam]}';font-weight:${f.w};src:url(data:font/woff2;base64,${f.b}) format('woff2');unicode-range:${RANGES[f.r]}}`).join('')+
+    FONTS.map(f=>`@font-face{font-family:'${f.fam}';font-weight:${f.w};src:url(data:font/woff2;base64,${f.b}) format('woff2');unicode-range:${RANGES[f.r]}}`).join('');
+  document.head.appendChild(st);
+  try{await Promise.all([['800','BC'],['600','BC'],['400','BA'],['600','BA']].flatMap(([w,fam])=>[document.fonts.load(`${w} 40px ${fam}`,'ŁĄółż Ab1'),document.fonts.load(`${w} 40px ${fam}`,'Ab1')]))}catch(e){}
+}
+const mctx=document.createElement('canvas').getContext('2d');
+function mw(str,size,fam,w,ls=0){mctx.font=`${w} ${size}px ${fam}`;return mctx.measureText(str).width+ls*str.length}
+function wrap(str,maxW,size,fam,w,ls=0){
+  const words=String(str).split(/\s+/).filter(Boolean),lines=[];let cur='';
+  for(const wd of words){const t=cur?cur+' '+wd:wd;if(mw(t,size,fam,w,ls)<=maxW||!cur)cur=t;else{lines.push(cur);cur=wd}}
+  if(cur)lines.push(cur);return lines;
+}
+
+/* ---------- silnik SVG ---------- */
+const C={red:'#E5242B',ink:'#F4F4F2',dark:'#0F1012',pale:'#ffd9da',tileDark:'rgba(10,6,8,.72)'};
+function tx(x,y,s,o={}){
+  const {size=30,fam='BA',w=400,fill='#fff',anchor='start',ls=0,up=false,op=1}=o;
+  const t=up?String(s).toUpperCase():String(s);
+  return `<text x="${x}" y="${y}" font-family="${fam}" font-weight="${w}" font-size="${size}" fill="${fill}" text-anchor="${anchor}" letter-spacing="${ls}" opacity="${op}">${esc(t)}</text>`;
+}
+function shell(inner,bg){
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><defs><style>${SVG_FONT_CSS}</style>
+<filter id="sh" x="-5%" y="-20%" width="110%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#3c0000" flood-opacity=".55"/></filter></defs>
+<image href="${bg}" x="0" y="0" width="1920" height="1080" preserveAspectRatio="xMidYMid slice"/>${inner}</svg>`;
+}
+function header(p){
+  let s='';const x=104,maxW=1290;
+  s+=`<rect x="${x}" y="88" width="40" height="6" fill="#fff"/>`+tx(x+54,98,'#RTSstat · '+(p.tag||''),{size:26,fam:'BC',w:800,ls:4,up:true});
+  const title=String(p.title||'').toUpperCase();
+  let size=96,lines=[title];
+  while(size>60&&mw(title,size,'BC',800)>maxW)size-=4;
+  if(mw(title,size,'BC',800)>maxW){size=64;lines=wrap(title,maxW,size,'BC',800).slice(0,2)}
+  let y=200;
+  lines.forEach((l,i)=>{s+=tx(x,y+i*size*.95,l,{size,fam:'BC',w:800,ls:1})});
+  y=y+(lines.length-1)*size*.95;
+  const sub=wrap(p.sub||'',maxW,32,'BA',400).slice(0,2);
+  let sy=y+52;sub.forEach((l,i)=>{s+=tx(x,sy+i*42,l,{size:32,fam:'BA',w:400,fill:'#fff1f1'})});
+  let by=sub.length?sy+(sub.length-1)*42:y;
+  if(p.date1||p.date2){
+    const w1=p.date1?mw(String(p.date1).toUpperCase(),28,'BC',800,3):0,w2=p.date2?mw(p.date2,24,'BA',600):0;
+    const W=18*2+w1+(p.date1&&p.date2?14:0)+w2,top=by+24;
+    s+=`<rect x="${x}" y="${top}" width="${W}" height="54" rx="6" fill="rgba(0,0,0,.3)" stroke="#fff" stroke-width="3"/>`;
+    let cx=x+18;
+    if(p.date1){s+=tx(cx,top+37,p.date1,{size:28,fam:'BC',w:800,ls:3,up:true});cx+=w1+14}
+    if(p.date2)s+=tx(cx,top+36,p.date2,{size:24,fam:'BA',w:600,fill:C.pale});
+    by=top+54;
+  }
+  return {svg:`<g filter="url(#sh)">${s}</g>`,bottom:by};
+}
+function footer(p){return `<g filter="url(#sh)">${tx(104,1000,p.foot||'',{size:20,fam:'BA',w:400,fill:'#e9cfd0'})}</g>`}
+function defFoot(extra){return `#RTSstat · stan po ${lastRound}. kolejce Ekstraklasy ${D.meta.season} · dane: API-Football`+(extra?' · '+extra:'')}
+
+/* --- rival --- */
+const RM={
+ draws:{lab:'Remisy',n:['remis','remisy','remisów'],hit:m=>m.res==='R',m3:true,legend:'remis'},
+ wins:{lab:'Wygrane',n:['wygrana','wygrane','wygranych'],hit:m=>m.res==='W',m3:true,legend:'wygrana'},
+ losses:{lab:'Porażki',n:['porażka','porażki','porażek'],hit:m=>m.res==='P',m3:true,legend:'porażka'},
+ cs:{lab:'Czyste konta',n:['mecz bez straty gola','mecze bez straty gola','meczów bez straty gola'],hit:m=>m.ga===0,legend:'bez straty gola'},
+ ng:{lab:'Mecze bez gola',n:['mecz bez gola','mecze bez gola','meczów bez gola'],hit:m=>m.gf===0,legend:'bez gola'},
+ g2:{lab:'Mecze z 2+ golami',n:['mecz z co najmniej 2 golami','mecze z co najmniej 2 golami','meczów z co najmniej 2 golami'],hit:m=>m.gf>=2,legend:'2+ gole'}
+};
+function rivalMatches(t,n){const m=TM[t];return n?m.slice(-n):m}
+function rivalCount(t,key,n){return rivalMatches(t,n).filter(RM[key].hit).length}
+function leagueCounts(key,n){return Object.keys(T).map(id=>[+id,rivalCount(+id,key,n)])}
+function rivalSuggestions(a,b){
+  const out=[];
+  for(const key of Object.keys(RM)){for(const n of [0,5]){
+    const ca=rivalCount(a,key,n),cb=rivalCount(b,key,n),L=leagueCounts(key,n).map(x=>x[1]);
+    const mx=Math.max(...L),mn=Math.min(...L);
+    let sc=Math.abs(ca-cb)*(n?1.6:1);
+    const tagA=ca===mx&&mx>0?'najwięcej w lidze':ca===mn?'najmniej w lidze':'';
+    const tagB=cb===mx&&mx>0?'najwięcej w lidze':cb===mn?'najmniej w lidze':'';
+    if(tagA)sc+=1.5;if(tagB)sc+=1.5;
+    out.push({key,n,ca,cb,tagA,tagB,sc});
+  }}
+  return out.sort((x,y)=>y.sc-x.sc).slice(0,5);
+}
+const rival={
+  name:'Liczba przed rywalem',
+  init(){const b=nextOpp||349;const p={a:WID,b,key:'draws',n:0,tag:'Liczba przed rywalem'};this.auto(p,true);return p},
+  auto(p,force){
+    const R=RM[p.key],ca=rivalCount(p.a,p.key,p.n),cb=rivalCount(p.b,p.key,p.n);
+    const nn=rivalMatches(p.a,p.n).length;
+    const L=leagueCounts(p.key,p.n).map(x=>x[1]),mx=Math.max(...L),mn=Math.min(...L);
+    const A=sn(p.a),B=sn(p.b);
+    const part=(nm,c)=>c===mx&&mx>0?`${nm} – najwięcej ${R.n[2]} w lidze.`:c===mn?`${nm} – najmniej ${R.n[2]} w lidze.`:'';
+    let sub=[part(A,ca),part(B,cb)].filter(Boolean).join(' ');
+    if(!sub)sub=`${A}: ${ca}, ${B}: ${cb} – ${p.n?'w ostatnich '+nn+' meczach':'po '+lastRound+' kolejkach'}.`;
+    const u=upcomingFor(p.a,p.b);let d1='',d2='';
+    if(u){const w=warsaw(u[1]);d1=`${u[2]===T[p.a].full?A:B} – ${u[2]===T[p.a].full?B:A}`;d2=`${w.wd} ${w.dm} · ${w.hm}`}
+    const auto={title:`${ca} ${pl(ca,R.n)} kontra ${cb}`,sub,date1:d1,date2:d2,foot:defFoot()};
+    for(const k in auto){if(force||!p.ed||!p.ed[k])p[k]=auto[k]}
+  },
+  fields:p=>[
+    {k:'a',l:'Drużyna A',t:'sel',o:teamOpts(),num:1},{k:'b',l:'Rywal',t:'sel',o:teamOpts(),num:1},
+    {k:'key',l:'Co liczymy',t:'sel',o:Object.entries(RM).map(([k,v])=>[k,v.lab])},
+    {k:'n',l:'Zakres',t:'sel',num:1,o:[[0,'Wszystkie rozegrane mecze'],[5,'Ostatnie 5 meczów']]},
+    {k:'title',l:'Tytuł',t:'text'},{k:'sub',l:'Podtytuł',t:'area'},
+    {k:'date1',l:'Pasek: mecz',t:'text'},{k:'date2',l:'Pasek: termin',t:'text'},{k:'foot',l:'Stopka',t:'text'}
+  ],
+  sugg(p){return rivalSuggestions(p.a,p.b).map(s=>({
+    h:`${s.ca} ${pl(s.ca,RM[s.key].n)} kontra ${s.cb}`+(s.n?' (ostatnie 5)':''),
+    s:`${sn(p.a)}${s.tagA?' – '+s.tagA:''} · ${sn(p.b)}${s.tagB?' – '+s.tagB:''}`,
+    set:{key:s.key,n:s.n}}))},
+  svg(p,bg){
+    const H=header(p);let s=H.svg;
+    const R=RM[p.key];const y0=H.bottom+24,bottomY=972;
+    const legendH=40,avail=bottomY-y0-legendH;
+    const rowGap=14,hdH=96;
+    const tilesH=Math.max(96,Math.min(162,(avail-2*hdH-rowGap-16)/2));
+    const rowH=hdH+8+tilesH;
+    const total=2*rowH+rowGap+legendH;
+    let y=bottomY-total;
+    [[p.a,true],[p.b,false]].forEach(([t,me])=>{
+      const ms=rivalMatches(t,p.n),c=ms.filter(R.hit).length;
+      const big=String(c),bw=Math.max(80,mw(big,112,'BC',800));
+      s+=`<g filter="url(#sh)">`+tx(104,y+88,big,{size:112,fam:'BC',w:800})+
+        tx(104+bw+22,y+50,sn(t),{size:52,fam:'BC',w:800,ls:1,up:true})+
+        tx(104+bw+22,y+88,`${pl(c,R.n)} w ${ms.length} ${ms.length===1?'meczu':'meczach'}`,{size:26,fam:'BC',w:800,ls:3,up:true,fill:C.pale})+`</g>`;
+      const n=ms.length||1,gap=12,w=(1712-gap*(n-1))/n,ty=y+hdH+8;
+      ms.forEach((m,i)=>{
+        const x=104+i*(w+gap),hit=R.hit(m);
+        let fill,stroke='none',ink='#fff',sw=0;
+        if(hit){fill=C.red;stroke='#fff';sw=3}
+        else if(m.res==='W'){fill='#F2F2F2';ink=C.dark}
+        else{fill=C.tileDark;stroke='#cfcfd2';sw=3;ink='#e8e8ea'}
+        s+=`<rect x="${x+sw/2}" y="${ty+sw/2}" width="${w-sw}" height="${tilesH-sw}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+        s+=tx(x+w/2,ty+tilesH*.22,'K'+m.k,{size:24,fam:'BA',w:600,fill:ink,anchor:'middle',ls:1,op:.9});
+        let on=sn(m.opp).toUpperCase(),os=28;while(os>16&&mw(on,os,'BC',800)>w-14)os-=2;
+        s+=tx(x+w/2,ty+tilesH*.22+os+8,on,{size:os,fam:'BC',w:800,fill:ink,anchor:'middle'});
+        s+=tx(x+w/2,ty+tilesH-14,`${m.gf}:${m.ga}`,{size:Math.min(66,tilesH*.42),fam:'BC',w:800,fill:ink,anchor:'middle'});
+      });
+      y+=rowH+rowGap;
+    });
+    // legenda
+    const ly=bottomY-10;let lx=104;
+    const sw=(f,st)=>{const r=`<rect x="${lx}" y="${ly-18}" width="22" height="22" rx="4" fill="${f}" ${st?`stroke="${st}" stroke-width="3"`:''}/>`;lx+=32;return r};
+    s+=`<g filter="url(#sh)">`;
+    s+=sw(C.red,'#fff')+tx(lx,ly,R.legend,{size:22,fam:'BA',w:600,fill:'#f1dede'});lx+=mw(R.legend,22,'BA',600)+30;
+    s+=sw('#F2F2F2')+tx(lx,ly,'wygrana',{size:22,fam:'BA',w:600,fill:'#f1dede'});lx+=mw('wygrana',22,'BA',600)+30;
+    s+=sw('rgba(10,6,8,.72)','#cfcfd2')+tx(lx,ly,'pozostałe',{size:22,fam:'BA',w:600,fill:'#f1dede'});lx+=mw('pozostałe',22,'BA',600)+30;
+    s+=tx(lx,ly,'w kafelku: kolejka · wynik z perspektywy drużyny',{size:22,fam:'BA',w:600,fill:'#f1dede'})+`</g>`;
+    return shell(s+footer(p),bg);
+  },
+  post(p){return `${p.title}.\n\n${p.sub}\n${p.date1?p.date1+' · '+p.date2+'\n':''}\nA Wy co typujecie? 👇\n#RTSstat #Widzew`}
+};
+
+/* --- mecz --- */
+function fixOpts(){return played.slice().sort((a,b)=>b[1]-a[1]||b[0]-a[0]).map(f=>[f[0],`K${f[1]} · ${sn(f[3])} ${f[5]}:${f[6]} ${sn(f[4])}`])}
+const matchT={
+  name:'Mecz',
+  init(){
+    const w=played.filter(f=>f[3]===WID||f[4]===WID).sort((a,b)=>b[1]-a[1]);
+    const p={fid:(w[0]||played[0])[0],tag:'Po meczu'};this.auto(p,true);return p;
+  },
+  auto(p,force){
+    const f=fxById[p.fid],h=f[3],a=f[4];const w=warsaw(f[2]);
+    const auto={title:`${sn(h)} ${f[5]}:${f[6]} ${sn(a)}`,sub:`${f[1]}. kolejka Ekstraklasy ${D.meta.season}. Bramki i liczby z meczu.`,date1:'',date2:`${w.wd} ${w.dm} · ${w.hm}`,foot:defFoot()};
+    for(const k in auto){if(force||!p.ed||!p.ed[k])p[k]=auto[k]}
+  },
+  fields:p=>[{k:'fid',l:'Mecz',t:'sel',num:1,o:fixOpts()},{k:'title',l:'Tytuł',t:'text'},{k:'sub',l:'Podtytuł',t:'area'},{k:'date2',l:'Pasek: termin',t:'text'},{k:'foot',l:'Stopka',t:'text'}],
+  sugg(){return []},
+  svg(p,bg){
+    const f=fxById[p.fid],h=f[3],a=f[4];
+    const H=header({...p,date1:''});let s=H.svg;
+    const gl=D.goals.filter(g=>g[0]===f[0]).sort((x,y)=>x[1]-y[1]);
+    const col=t=>gl.filter(g=>g[2]===t);
+    const y0=H.bottom+34;
+    const stats=[['Posiadanie piłki','poss','%'],['Strzały (celne)','shots'],['Rzuty rożne','corners'],['xG (gole oczekiwane)','xg']];
+    const sh=stats.length*58+10,sy=972-sh;
+    // kolumny bramek
+    const cx=[104,980];const cw=836;
+    [[h,0],[a,1]].forEach(([t,i])=>{
+      const x=cx[i];
+      s+=`<g filter="url(#sh)">`+tx(x,y0+26,sn(t),{size:44,fam:'BC',w:800,ls:2,up:true,fill:i?'#fff':C.pale})+`</g>`;
+      const g=col(t),lh=Math.min(48,Math.max(34,(sy-y0-70)/Math.max(g.length,1)));
+      g.forEach((e,j)=>{
+        const yy=y0+78+j*lh;let lab=e[3].replace(/^([A-ZŁŚŻŹĆÓ]\.\s?)+/,m=>m);
+        const extra=e[5]==='P'?' (k)':e[5]==='O'?' (sam.)':'';
+        s+=`<g filter="url(#sh)">`+tx(x,yy,e[1]+"'",{size:30,fam:'BC',w:800,fill:C.pale,ls:1})+tx(x+74,yy,lab+extra,{size:32,fam:'BA',w:600});
+        if(e[4])s+=tx(x+74+mw(lab+extra,32,'BA',600)+14,yy,'as. '+e[4],{size:24,fam:'BA',w:400,fill:'#f1dede'});
+        s+=`</g>`;
+      });
+      if(!g.length)s+=`<g filter="url(#sh)">`+tx(x,y0+78,'bez bramek',{size:28,fam:'BA',w:400,fill:'#f1dede'})+`</g>`;
+    });
+    // słupki statystyk
+    stats.forEach(([lab,k,u],j)=>{
+      const ra=ts[f[0]+'_'+h],rb=ts[f[0]+'_'+a];if(!ra||!rb)return;
+      const idx={poss:2,shots:3,corners:5,xg:12}[k];
+      let va=+ra[idx]||0,vb=+rb[idx]||0;
+      const yy=sy+j*58+36,mxv=Math.max(va,vb,0.01);
+      const wa=300*va/mxv,wb=300*vb/mxv;
+      const f1=v=>k==='xg'?fmt(v,2):String(v)+(u||'');
+      const t1=k==='shots'?`${va} (${ra[4]??0})`:f1(va),t2=k==='shots'?`${vb} (${rb[4]??0})`:f1(vb);
+      s+=`<g filter="url(#sh)">`+tx(104,yy,t1,{size:38,fam:'BC',w:800})+tx(1816,yy,t2,{size:38,fam:'BC',w:800,anchor:'end'})+
+        tx(960,yy-4,lab,{size:24,fam:'BC',w:600,ls:2,up:true,anchor:'middle',fill:C.pale})+`</g>`;
+      s+=`<rect x="${950-wa-10}" y="${yy+8}" width="${wa}" height="10" rx="5" fill="${C.red}"/><rect x="970" y="${yy+8}" width="${wb}" height="10" rx="5" fill="#F2F2F2"/>`;
+    });
+    // pasek terminu
+    return shell(s+footer(p),bg);
+  },
+  post(p){const f=fxById[p.fid];return `${p.title}.\n\n${p.sub}\n\nCo z tego meczu zostaje Wam w głowie? 👇\n#RTSstat #Widzew`}
+};
+
+/* --- zawodnik --- */
+const PL=D.players;const PI={};PL.forEach(r=>PI[r[0]]=r);
+const PM={ // nazwa, indeks, jednostka-formy
+  goals:{lab:'Gole',i:8,n:['gol','gole','goli']},assists:{lab:'Asysty',i:9,n:['asysta','asysty','asyst']},
+  shots:{lab:'Strzały',i:10,n:['strzał','strzały','strzałów']},keyp:{lab:'Kluczowe podania',i:12,n:['kluczowe podanie','kluczowe podania','kluczowych podań']},
+  mins:{lab:'Minuty',i:6,n:['minuta','minuty','minut']},rating:{lab:'Ocena śr.',i:7,n:['ocena','oceny','ocen'],min:400,dec:2},
+  yellow:{lab:'Żółte kartki',i:13,n:['żółta kartka','żółte kartki','żółtych kartek']},apps:{lab:'Mecze',i:4,n:['mecz','mecze','meczów']}
+};
+function prank(pid,k){
+  const m=PM[k],pool=PL.filter(r=>r[6]>=(m.min||0));const v=PI[pid][m.i];if(v==null||(m.min&&PI[pid][6]<m.min))return null;
+  return 1+pool.filter(r=>r[m.i]>v).length;
+}
+function plOpts(t){return PL.filter(r=>r[2]===+t).sort((a,b)=>b[6]-a[6]).map(r=>[r[0],`${r[1]} (${r[6]} min)`])}
+const player={
+  name:'Zawodnik',
+  init(){
+    const o=plOpts(WID);let best=PL.filter(r=>r[2]===WID).sort((a,b)=>(b[8]*3+b[9]*2+b[6]/900)-(a[8]*3+a[9]*2+a[6]/900))[0];
+    const p={team:WID,pid:best[0],tag:'Zawodnik',hero:'auto'};this.auto(p,true);return p;
+  },
+  heroKey(p){
+    if(p.hero&&p.hero!=='auto')return p.hero;
+    let bk='goals',bs=-1;
+    for(const k of ['goals','assists','keyp','rating','shots']){const r=prank(p.pid,k),v=PI[p.pid][PM[k].i];if(r==null||!v)continue;const sc=1/r;if(sc>bs){bs=sc;bk=k}}
+    return bk;
+  },
+  auto(p,force){
+    const r=PI[p.pid];
+    const auto={title:r[1],sub:`${sn(r[2])}. ${r[8]} ${pl(r[8],PM.goals.n)} i ${r[9]} ${pl(r[9],PM.assists.n)} w ${r[4]} ${r[4]===1?'meczu':'meczach'}, ${r[6]} minut na boisku.`,foot:defFoot('ranking: zawodnicy z min. 250 minutami')};
+    for(const k in auto){if(force||!p.ed||!p.ed[k])p[k]=auto[k]}
+  },
+  fields:p=>[{k:'team',l:'Drużyna',t:'sel',num:1,o:teamOpts(),dep:1},{k:'pid',l:'Zawodnik',t:'sel',num:1,o:plOpts(p.team)},
+    {k:'hero',l:'Wyróżniona liczba',t:'sel',o:[['auto','Automatycznie (najlepsza w lidze)'],...Object.entries(PM).map(([k,v])=>[k,v.lab])]},
+    {k:'title',l:'Tytuł',t:'text'},{k:'sub',l:'Podtytuł',t:'area'},{k:'foot',l:'Stopka',t:'text'}],
+  sugg(p){
+    const out=[];PL.filter(r=>r[2]===+p.team).forEach(r=>{['goals','assists','keyp','rating'].forEach(k=>{
+      const rk=prank(r[0],k),v=r[PM[k].i];if(rk&&rk<=3&&v>0)out.push({h:`${r[1]}: ${PM[k].dec?fmt(v,2):v} ${PM[k].lab.toLowerCase()}`,s:`#${rk} w lidze`,set:{pid:r[0],hero:k},sc:4-rk})})});
+    return out.sort((a,b)=>b.sc-a.sc).slice(0,6);
+  },
+  svg(p,bg){
+    const r=PI[p.pid],H=header({...p,tag:'Zawodnik'});let s=H.svg;
+    const hk=this.heroKey(p),hm=PM[hk];
+    const y0=H.bottom+54,y1=972,ah=y1-y0;
+    const hv=hm.dec?fmt(r[hm.i],2):String(r[hm.i]);
+    const hx=104,hw=560;
+    s+=`<rect x="${hx}" y="${y0}" width="${hw}" height="${ah}" rx="12" fill="${C.red}" stroke="#fff" stroke-width="3"/>`;
+    const fs=Math.min(300,ah*.62);
+    s+=tx(hx+hw/2,y0+ah*.58,hv,{size:fs,fam:'BC',w:800,anchor:'middle'});
+    s+=tx(hx+hw/2,y0+ah*.58+52,hm.lab,{size:42,fam:'BC',w:800,ls:4,up:true,anchor:'middle'});
+    const rk=prank(p.pid,hk);if(rk)s+=tx(hx+hw/2,y0+ah-26,`#${rk} w lidze`,{size:30,fam:'BA',w:600,anchor:'middle',fill:'#ffe5e6'});
+    const order=['goals','assists','shots','keyp','mins','rating','apps','yellow'].filter(k=>k!==hk).slice(0,6);
+    const gx=hx+hw+24,gw=1816-gx,cols=3,gap=16,cw=(gw-gap*2)/cols,chh=(ah-gap)/2;
+    order.forEach((k,i)=>{
+      const m=PM[k],x=gx+(i%cols)*(cw+gap),y=y0+Math.floor(i/cols)*(chh+gap);
+      const v=r[m.i];let vt=m.dec?fmt(v,2):String(v??'–');if(k==='shots')vt=`${r[10]} (${r[11]})`;
+      const rr=['goals','assists','keyp','rating','shots'].includes(k)?prank(p.pid,k):null;
+      s+=`<rect x="${x}" y="${y}" width="${cw}" height="${chh}" rx="10" fill="${C.tileDark}" stroke="#cfcfd2" stroke-width="3"/>`;
+      s+=tx(x+cw/2,y+chh*.62,vt,{size:Math.min(110,chh*.46),fam:'BC',w:800,anchor:'middle',fill:'#fff'});
+      s+=tx(x+cw/2,y+chh*.2+8,k==='shots'?'Strzały (celne)':m.lab,{size:24,fam:'BC',w:600,ls:3,up:true,anchor:'middle',fill:C.pale});
+      if(rr&&rr<=15)s+=tx(x+cw/2,y+chh-18,`#${rr} w lidze`,{size:22,fam:'BA',w:600,anchor:'middle',fill:'#e8e8ea'});
+    });
+    return shell(s+footer(p),bg);
+  },
+  post(p){const r=PI[p.pid];return `${r[1]}.\n\n${p.sub}\n\nKtóra z tych liczb robi na Was największe wrażenie? 👇\n#RTSstat #Widzew`}
+};
+
+/* --- porównanie --- */
+const CM={
+ pts:{lab:'Punkty na mecz',f:a=>a.avg.pts,d:2},gf:{lab:'Gole strzelone / mecz',f:a=>a.avg.gf,d:2},ga:{lab:'Gole stracone / mecz',f:a=>a.avg.ga,d:2},
+ xg:{lab:'xG na mecz',f:a=>a.avg.xg,d:2},xga:{lab:'xG rywali na mecz',f:a=>a.avg.xga,d:2},poss:{lab:'Posiadanie piłki (%)',f:a=>a.avg.poss,d:0},
+ shots:{lab:'Strzały na mecz',f:a=>a.avg.shots,d:1},on:{lab:'Strzały celne na mecz',f:a=>a.avg.on,d:1},corners:{lab:'Rzuty rożne na mecz',f:a=>a.avg.corners,d:1},
+ fouls:{lab:'Faule na mecz',f:a=>a.avg.fouls,d:1},yellow:{lab:'Żółte kartki na mecz',f:a=>a.avg.yellow,d:1},pct:{lab:'Celność podań (%)',f:a=>a.avg.pct,d:0}
+};
+function cmpAuto(a,b){return Object.entries(CM).map(([k,m])=>{const x=m.f(AG[a]),y=m.f(AG[b]);return [k,Math.abs(x-y)/(((x+y)/2)||1)]}).sort((p,q)=>q[1]-p[1]).slice(0,6).map(x=>x[0])}
+const cmp={
+  name:'Porównanie',
+  init(){const b=nextOpp||349;const p={a:WID,b,tag:'Porównanie'};p.keys=cmpAuto(p.a,p.b);this.auto(p,true);return p},
+  auto(p,force){const auto={title:`${sn(p.a)} vs ${sn(p.b)}`,sub:`Średnie na mecz po ${lastRound} kolejkach Ekstraklasy. Gdzie te zespoły najbardziej się różnią.`,foot:defFoot()};
+    for(const k in auto){if(force||!p.ed||!p.ed[k])p[k]=auto[k]}},
+  fields:p=>[{k:'a',l:'Drużyna A',t:'sel',num:1,o:teamOpts()},{k:'b',l:'Drużyna B',t:'sel',num:1,o:teamOpts()},
+    {k:'keys',l:'Wskaźniki (max 7)',t:'checks',o:Object.entries(CM).map(([k,v])=>[k,v.lab])},
+    {k:'title',l:'Tytuł',t:'text'},{k:'sub',l:'Podtytuł',t:'area'},{k:'foot',l:'Stopka',t:'text'}],
+  sugg(p){return [{h:'Dobierz 6 najbardziej kontrastowych',s:'według względnej różnicy między drużynami',set:{keys:cmpAuto(p.a,p.b)}}]},
+  svg(p,bg){
+    const H=header({...p,date1:'',date2:''});let s=H.svg;
+    const y0=H.bottom+62,ks=(p.keys||[]).slice(0,7);
+    s+=`<g filter="url(#sh)">`+tx(104,y0+30,sn(p.a),{size:52,fam:'BC',w:800,ls:2,up:true,fill:'#fff'})+tx(1816,y0+30,sn(p.b),{size:52,fam:'BC',w:800,ls:2,up:true,anchor:'end',fill:C.pale})+`</g>`;
+    const top=y0+58,rh=Math.min(84,(972-top)/Math.max(ks.length,1));
+    ks.forEach((k,i)=>{
+      const m=CM[k],va=m.f(AG[p.a]),vb=m.f(AG[p.b]),mx=Math.max(va,vb,.0001),y=top+i*rh;
+      const wa=330*va/mx,wb=330*vb/mx,mid=960,yy=y+rh*.55;
+      s+=`<g filter="url(#sh)">`+tx(104,yy+10,fmt(va,m.d),{size:46,fam:'BC',w:800})+tx(1816,yy+10,fmt(vb,m.d),{size:46,fam:'BC',w:800,anchor:'end'})+
+        tx(mid,y+rh*.38,m.lab,{size:24,fam:'BC',w:600,ls:2,up:true,anchor:'middle',fill:C.pale})+`</g>`;
+      s+=`<rect x="${mid-14-wa}" y="${y+rh*.5}" width="${wa}" height="14" rx="7" fill="${C.red}" stroke="#fff" stroke-width="1.5"/><rect x="${mid+14}" y="${y+rh*.5}" width="${wb}" height="14" rx="7" fill="#F2F2F2"/>`;
+    });
+    return shell(s+footer(p),bg);
+  },
+  post(p){return `${p.title}.\n\n${p.sub}\n\nCzyja to będzie historia? 👇\n#RTSstat #Widzew`}
+};
+
+/* --- własna liczba + kopalnia faktów --- */
+function facts(){
+  const out=[];const all=Object.keys(T).map(id=>[+id,AG[id]]);
+  const tops=[
+    ['Remisy','R',['remis','remisy','remisów'],a=>a.R],['Wygrane','W',['wygrana','wygrane','wygranych'],a=>a.W],['Porażki','L',['porażka','porażki','porażek'],a=>a.L],
+    ['Gole strzelone','GF',['bramka strzelona','bramki strzelone','bramek strzelonych'],a=>a.GF],['Gole stracone','GA',['bramka stracona','bramki stracone','bramek straconych'],a=>a.GA],
+    ['Mecze bez straty gola','CS',['mecz bez straty gola','mecze bez straty gola','meczów bez straty gola'],a=>a.CS]];
+  tops.forEach(([nm,,n,f])=>{
+    const sorted=all.slice().sort((x,y)=>f(y[1])-f(x[1]));const top=sorted[0],wid=all.find(x=>x[0]===WID);
+    out.push({h:`${f(top[1])} ${pl(f(top[1]),n)} – ${sn(top[0])}`,s:`${nm}: lider ligi po ${lastRound} kolejkach`,set:{big:String(f(top[1])),label:`${n[2]} – ${sn(top[0])}, najwięcej w lidze`,l1:`Stan po ${lastRound} kolejkach Ekstraklasy`,l2:'',tag:nm}});
+    const rk=1+all.filter(x=>f(x[1])>f(wid[1])).length;
+    if(top[0]!==WID&&(rk<=3||rk>=16))out.push({h:`Widzew: ${f(wid[1])} ${pl(f(wid[1]),n)} (#${rk} w lidze)`,s:nm,set:{big:String(f(wid[1])),label:`${n[2]} Widzewa`,l1:`#${rk} w lidze po ${lastRound} kolejkach`,l2:`Lider: ${sn(top[0])} (${f(top[1])})`,tag:nm}});
+  });
+  const pt=[['goals','bramek','Król strzelców'],['assists','asyst','Najwięcej asyst'],['keyp','kluczowych podań','Kluczowe podania']];
+  pt.forEach(([k,nm,tg])=>{const top=PL.slice().sort((a,b)=>b[PM[k].i]-a[PM[k].i])[0];
+    out.push({h:`${top[PM[k].i]} ${nm} – ${top[1]}`,s:`${tg} (${sn(top[2])})`,set:{big:String(top[PM[k].i]),label:`${nm} – ${top[1]} (${sn(top[2])})`,l1:`${tg} po ${lastRound} kolejkach`,l2:'',tag:tg}})});
+  return out;
+}
+const fact={
+  name:'Własna liczba',
+  init(){const p={big:'6',label:'remisów Widzewa po 9 kolejkach',l1:'Najwięcej w lidze',l2:'',tag:'Liczba',foot:defFoot()};return p},
+  auto(){},
+  fields:p=>[{k:'big',l:'Liczba (duża)',t:'text'},{k:'label',l:'Opis liczby',t:'area'},{k:'l1',l:'Linia 1',t:'text'},{k:'l2',l:'Linia 2',t:'text'},{k:'tag',l:'Etykieta u góry',t:'text'},{k:'foot',l:'Stopka',t:'text'}],
+  sugg(){return facts()},
+  svg(p,bg){
+    let s='';
+    s+=`<g filter="url(#sh)"><rect x="104" y="88" width="40" height="6" fill="#fff"/>`+tx(158,98,'#RTSstat · '+(p.tag||'Liczba'),{size:26,fam:'BC',w:800,ls:4,up:true});
+    const big=String(p.big||''),fs=Math.min(520,Math.max(160,1500/Math.max(big.length,1)*1.15));
+    const bw=mw(big,fs,'BC',800);
+    s+=tx(104,700,big,{size:fs,fam:'BC',w:800});
+    const lx=Math.min(104+bw+50,980),lw=1816-lx;
+    const lab=wrap(p.label||'',lw,64,'BC',800).slice(0,4);
+    lab.forEach((l,i)=>{s+=tx(lx,470+i*70,l,{size:64,fam:'BC',w:800,up:true,ls:1})});
+    let yy=470+lab.length*70+16;
+    [p.l1,p.l2].filter(Boolean).forEach((l,i)=>{wrap(l,lw,34,'BA',400).slice(0,2).forEach(ln=>{s+=tx(lx,yy,ln,{size:34,fam:'BA',w:400,fill:'#fff1f1'});yy+=44})});
+    s+='</g>';
+    return shell(s+footer(p),bg);
+  },
+  post(p){return `${p.big} – ${p.label}.\n\n${[p.l1,p.l2].filter(Boolean).join(' ')}\n\n#RTSstat #Widzew`}
+};
+
+const TYPES={rival,match:matchT,player,cmp,fact};
+const TKEYS=['rival','match','player','cmp','fact'];
+
+/* ---------- stan i capability ---------- */
+let db=null,user=null,assets=null,downloads=null,isAdmin=false;
+let SET={bg:null,cards:{}};
+let bgData=BG_DEFAULT;
+const S={type:'rival',p:{},url:null,postEd:false,busy:false};
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+async function resolveBg(){
+  bgData=BG_DEFAULT;
+  if(SET.bg&&SET.bg.id){
+    try{
+      const r=await fetch('/_blob/'+SET.bg.id);if(!r.ok)throw 0;const b=await r.blob();
+      bgData=await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.onerror=rej;fr.readAsDataURL(b)});
+    }catch(e){bgData=BG_DEFAULT}
+  }
+}
+
+/* ---------- UI główne ---------- */
+function renderTabs(){
+  const nav=$('#tabs');nav.innerHTML='';
+  TKEYS.filter(k=>isAdmin||SET.cards[k]!==false).forEach(k=>{
+    const b=el(`<button class="tab" role="tab" aria-selected="${S.type===k}">${esc(TYPES[k].name)}</button>`);
+    b.onclick=()=>{S.type=k;S.postEd=false;renderTabs();renderWork()};nav.appendChild(b);
+  });
+  if(isAdmin){const b=el(`<button class="tab" role="tab" aria-selected="${S.type==='admin'}">Admin</button>`);b.onclick=()=>{S.type='admin';renderTabs();renderAdmin()};nav.appendChild(b)}
+}
+function curP(){return S.p[S.type]||(S.p[S.type]=TYPES[S.type].init())}
+function renderWork(){
+  if(S.type==='admin')return renderAdmin();
+  const Ty=TYPES[S.type],p=curP();
+  const v=$('#view');
+  v.innerHTML=`<div class="work"><div class="ctl" id="ctl"></div><div class="pvcol"><div class="frame"><img id="pv" alt="Podgląd karty"></div>
+  <div class="actions"><button class="btn pri" id="dl">Pobierz PNG</button><span class="msg" id="dlmsg"></span></div>
+  <div class="card-box"><div class="sec">Tekst posta (do edycji)</div><textarea id="post"></textarea>
+  <div class="actions"><button class="btn sm" id="cp">Kopiuj tekst</button><button class="btn sm" id="rp">Odśwież z karty</button><span class="msg" id="cpmsg"></span></div></div></div></div>`;
+  buildCtl();$('#dl').onclick=doDownload;
+  $('#post').oninput=()=>{S.postEd=true};
+  $('#cp').onclick=async()=>{const t=$('#post');try{await navigator.clipboard.writeText(t.value);$('#cpmsg').textContent='Skopiowano';$('#cpmsg').className='msg ok'}catch(e){t.select();$('#cpmsg').textContent='Zaznacz i skopiuj ręcznie (Ctrl/Cmd+C)';$('#cpmsg').className='msg'}};
+  $('#rp').onclick=()=>{S.postEd=false;refresh(true)};
+  refresh(true);
+}
+function buildCtl(){
+  const Ty=TYPES[S.type],p=curP(),c=$('#ctl');c.innerHTML='';
+  const sg=Ty.sugg(p);
+  if(sg.length){
+    c.appendChild(el(`<div class="sec">Podpowiedzi</div>`));
+    const w=el(`<div class="chips"></div>`);
+    sg.slice(0,S.type==='fact'?40:6).forEach(x=>{const b=el(`<button class="chip">${esc(x.h)}<small>${esc(x.s||'')}</small></button>`);
+      b.onclick=()=>{Object.assign(p,x.set);if(S.type==='fact'){p.ed={}}else{p.ed={}}Ty.auto(p,true);S.postEd=false;buildCtl();refresh(true)};w.appendChild(b)});
+    if(S.type==='fact'){w.style.maxHeight='280px';w.style.overflowY='auto'}
+    c.appendChild(w);
+  }
+  c.appendChild(el(`<div class="sec">Ustawienia karty</div>`));
+  Ty.fields(p).forEach(f=>{
+    const id='f-'+f.k;let h='';
+    if(f.t==='sel'){h=`<label class="f">${esc(f.l)}<select id="${id}">${f.o.map(([v,l])=>`<option value="${esc(v)}" ${String(p[f.k])===String(v)?'selected':''}>${esc(l)}</option>`).join('')}</select></label>`}
+    else if(f.t==='text'){h=`<label class="f">${esc(f.l)}<input type="text" id="${id}" value="${esc(p[f.k]??'')}"></label>`}
+    else if(f.t==='area'){h=`<label class="f">${esc(f.l)}<textarea id="${id}">${esc(p[f.k]??'')}</textarea></label>`}
+    else if(f.t==='checks'){h=`<div class="f"><span>${esc(f.l)}</span><div class="checks" id="${id}">${f.o.map(([v,l])=>`<label><input type="checkbox" value="${v}" ${(p[f.k]||[]).includes(v)?'checked':''}> ${esc(l)}</label>`).join('')}</div></div>`}
+    const n=el(h);c.appendChild(n);
+    const inp=n.querySelector('select,input[type=text],textarea');
+    if(f.t==='checks'){n.querySelectorAll('input').forEach(i=>i.onchange=()=>{let ks=[...n.querySelectorAll('input:checked')].map(x=>x.value);if(ks.length>7){i.checked=false;ks=ks.filter(x=>x!==i.value)}p.keys=ks;refresh()})}
+    else if(f.t==='sel'){inp.onchange=()=>{p[f.k]=f.num?+inp.value:inp.value;
+      if(f.k==='team'){const o=plOpts(p.team);p.pid=o[0]?o[0][0]:p.pid}
+      if(S.type==='cmp'&&(f.k==='a'||f.k==='b'))p.keys=cmpAuto(p.a,p.b);
+      Ty.auto(p,false);S.postEd=false;if(f.dep||f.k==='a'||f.k==='b'||f.k==='fid'||f.k==='pid'||f.k==='key'||f.k==='n')buildCtl();refresh(true)}}
+    else{inp.oninput=()=>{p[f.k]=inp.value;p.ed=p.ed||{};p.ed[f.k]=true;refresh()}}
+  });
+}
+let rt=null;
+function syncAutoInputs(){const p=curP();for(const k of ['title','sub','date1','date2','foot']){const i=$('#f-'+k);if(i&&i!==document.activeElement&&i.value!==(p[k]??''))i.value=p[k]??''}}
+function refresh(now){clearTimeout(rt);const go=()=>{if(S.type==='admin')return;draw();syncAutoInputs()};if(now)go();else rt=setTimeout(go,180)}
+async function svgToUrl(svg){return URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}))}
+async function draw(){
+  const Ty=TYPES[S.type],p=curP();let svg;
+  try{svg=Ty.svg(p,bgData)}catch(e){console.error(e);return}
+  S.svg=svg;
+  const u=await svgToUrl(svg);const old=S.url;S.url=u;const im=$('#pv');if(im)im.src=u;if(old)setTimeout(()=>URL.revokeObjectURL(old),2000);
+  if(!S.postEd){const t=$('#post');if(t)t.value=Ty.post(p)}
+}
+async function toPng(svg){
+  const u=await svgToUrl(svg);
+  const im=new Image();im.src=u;await im.decode();
+  const cv=document.createElement('canvas');cv.width=1920;cv.height=1080;cv.getContext('2d').drawImage(im,0,0,1920,1080);
+  URL.revokeObjectURL(u);
+  return await new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('toBlob')),'image/png'));
+}
+async function doDownload(){
+  const m=$('#dlmsg');m.className='msg';
+  if(!downloads){m.textContent='Pobieranie niedostępne w tym widoku – zrób zrzut podglądu.';m.className='msg err';return}
+  try{
+    $('#dl').disabled=true;m.textContent='Przygotowuję PNG…';
+    const blob=await toPng(S.svg);
+    const slug=(curP().title||S.type).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ł/g,'l').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'karta';
+    await downloads.save({filename:`RTSstat-${slug}.png`,data:blob});
+    m.textContent='Zapisano.';m.className='msg ok';
+  }catch(e){m.textContent=e&&e.code==='declined'?'Anulowano.':'Nie udało się zapisać pliku ('+(e&&e.code||e&&e.message||'błąd')+').';m.className='msg err'}
+  finally{$('#dl').disabled=false}
+}
+
+/* ---------- admin ---------- */
+const CODE_CH='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function newCode(){let s='';const a=new Uint32Array(4);crypto.getRandomValues(a);for(const x of a)s+=CODE_CH[x%CODE_CH.length];return 'RTS-'+s}
+async function renderAdmin(){
+  const v=$('#view');
+  v.innerHTML=`<div class="admin">
+  <div class="card-box"><h3>Kody dostępu ekipy</h3><p class="msg">Każdy dziennikarz dostaje kod na WhatsAppie i przy pierwszym wejściu podaje kod + nick. Wyłączony kod przestaje działać przy następnym wejściu.</p>
+   <div class="actions"><input type="text" id="c-label" placeholder="Dla kogo (np. Marek)" style="max-width:240px"><button class="btn pri" id="c-new">Utwórz kod</button></div><div class="msg" id="c-msg"></div>
+   <div class="scroll"><table class="t"><thead><tr><th>Kod</th><th>Dla kogo</th><th>Status</th><th></th></tr></thead><tbody id="c-list"></tbody></table></div></div>
+  <div class="card-box"><h3>Tło kart</h3><p class="msg">Obraz 1920×1080 w stylu RTS: logo w prawym górnym rogu, wolny lewy panel. To tło pojawia się pod wszystkimi kartami.</p>
+   <img class="mini" id="bgp" alt="Aktualne tło"><div class="actions"><input type="file" id="bgf" accept="image/png,image/jpeg,image/webp"><button class="btn" id="bgr">Przywróć domyślne</button></div><div class="msg" id="bg-msg"></div></div>
+  <div class="card-box"><h3>Dostępne typy kart</h3><div class="checks" id="cards-box"></div><div class="msg" id="k-msg"></div></div>
+  <div class="card-box"><h3>Dane</h3><p class="msg">Dane z bazy ClubFantasy z dnia <b>${esc(D.meta.generatedAt)}</b>, rozegrane kolejki: 1–${lastRound}, sezon ${esc(D.meta.season)}. Odświeżenie danych po kolejce robi Claude (nowa publikacja strony) – napisz w czacie „odśwież dane”.</p>
+   <p class="msg">Ranking zawodników liczony wśród tych z min. 250 minutami (oraz wszyscy z Widzewa).</p></div></div>`;
+  $('#bgp').src=bgData;
+  const cb=$('#cards-box');cb.innerHTML=TKEYS.map(k=>`<label><input type="checkbox" data-k="${k}" ${SET.cards[k]!==false?'checked':''}> ${esc(TYPES[k].name)}</label>`).join('');
+  cb.querySelectorAll('input').forEach(i=>i.onchange=async()=>{
+    SET.cards[i.dataset.k]=i.checked;
+    try{await db.doc('settings/cards').set({...SET.cards});$('#k-msg').textContent='Zapisano.';$('#k-msg').className='msg ok'}catch(e){$('#k-msg').textContent='Nie udało się zapisać ('+(e.code||e.message)+')';$('#k-msg').className='msg err'}
+  });
+  $('#c-new').onclick=async()=>{
+    const label=$('#c-label').value.trim();if(!label){$('#c-msg').textContent='Wpisz, dla kogo jest kod.';$('#c-msg').className='msg err';return}
+    const code=newCode();
+    try{await db.doc('codes/'+code).set({label,active:true,createdAt:new Date().toISOString()});$('#c-label').value='';$('#c-msg').textContent='Utworzono '+code;$('#c-msg').className='msg ok';loadCodes()}
+    catch(e){$('#c-msg').textContent='Błąd zapisu ('+(e.code||e.message)+')';$('#c-msg').className='msg err'}
+  };
+  $('#bgf').onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;const m=$('#bg-msg');
+    if(!assets){m.textContent='Wgrywanie plików niedostępne w tym widoku.';m.className='msg err';return}
+    try{
+      m.textContent='Wgrywam…';
+      const r=await assets.upload(f);
+      await db.doc('settings/bg').set({id:r.id,name:f.name,at:new Date().toISOString()});
+      SET.bg={id:r.id};await resolveBg();$('#bgp').src=bgData;m.textContent='Tło zmienione.';m.className='msg ok';
+    }catch(err){m.textContent='Nie udało się wgrać ('+(err.code||err.message)+')';m.className='msg err'}
+  };
+  $('#bgr').onclick=async()=>{const m=$('#bg-msg');try{await db.doc('settings/bg').delete();SET.bg=null;await resolveBg();$('#bgp').src=bgData;m.textContent='Przywrócono domyślne tło.';m.className='msg ok'}catch(err){m.textContent='Błąd ('+(err.code||err.message)+')';m.className='msg err'}};
+  loadCodes();
+}
+async function loadCodes(){
+  const tb=$('#c-list');if(!tb)return;
+  try{
+    const sn=await db.collection('codes').get();
+    const rows=sn.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));
+    tb.innerHTML=rows.length?'':'<tr><td colspan="4" class="msg">Brak kodów – utwórz pierwszy.</td></tr>';
+    rows.forEach(r=>{
+      const tr=el(`<tr><td class="code">${esc(r.id)}</td><td>${esc(r.label)}</td><td>${r.active?'aktywny':'wyłączony'}</td><td class="actions"></td></tr>`);
+      const ac=tr.querySelector('.actions');
+      const wa=el(`<button class="btn sm">Kopiuj SMS/WhatsApp</button>`);
+      wa.onclick=async()=>{const t=`Cześć ${r.label}! Mamy w Rozmowach Tylko Sportowych narzędzie do robienia kart ze statystykami (#RTSstat). Wejdź w link, który wyślę osobno, wpisz kod ${r.id} i swój nick – i możesz robić plansze sam.`;try{await navigator.clipboard.writeText(t);wa.textContent='Skopiowano'}catch(e){prompt_fallback(t)}};
+      const tg=el(`<button class="btn sm">${r.active?'Wyłącz':'Włącz'}</button>`);
+      tg.onclick=async()=>{await db.doc('codes/'+r.id).update({active:!r.active});loadCodes()};
+      const del=el(`<button class="btn sm">Usuń</button>`);
+      del.onclick=async()=>{if(del.dataset.s!=='1'){del.dataset.s='1';del.textContent='Na pewno?';return}await db.doc('codes/'+r.id).delete();loadCodes()};
+      ac.append(wa,tg,del);tb.appendChild(tr);
+    });
+  }catch(e){tb.innerHTML=`<tr><td colspan="4" class="msg err">Nie udało się wczytać kodów (${esc(e.code||e.message)})</td></tr>`}
+}
+function prompt_fallback(t){const d=el(`<textarea style="width:100%;min-height:90px">${esc(t)}</textarea>`);$('#c-msg').after(d);d.select()}
+
+/* ---------- start ---------- */
+function showStudio(who){
+  $('#gate').hidden=true;$('#boot').hidden=true;$('#studio').hidden=false;
+  $('#who').innerHTML=`<span>${esc(who)}</span>${isAdmin?'<span class="badge">admin</span>':''}`;
+  if(!TKEYS.includes(S.type)||(!isAdmin&&SET.cards[S.type]===false))S.type=TKEYS.find(k=>SET.cards[k]!==false)||'rival';
+  renderTabs();renderWork();
+}
+async function boot(){
+  try{await loadFonts()}catch(e){}
+  try{db=await claude.use('db')}catch(e){db=null}
+  try{user=await claude.use('user')}catch(e){user=null}
+  try{assets=await claude.use('assets')}catch(e){assets=null}
+  try{downloads=await claude.use('downloads')}catch(e){downloads=null}
+  try{isAdmin=user?((await user.isOwner())||(await user.canEdit())):false}catch(e){isAdmin=false}
+  if(db){
+    try{const b=await db.doc('settings/bg').get();SET.bg=b.exists?b.data():null}catch(e){}
+    try{const c=await db.doc('settings/cards').get();SET.cards=c.exists?c.data():{}}catch(e){}
+  }
+  await resolveBg();
+  if(isAdmin){showStudio(LS.get('rts_nick')||'Admin');return}
+  const saved=LS.get('rts_access');
+  if(saved&&db){
+    try{const d=await db.doc('codes/'+saved.code).get();if(d.exists&&d.data().active){showStudio(saved.nick);return}}catch(e){}
+  }
+  $('#boot').hidden=true;$('#gate').hidden=false;
+  if(!db){$('#g-msg').textContent='Brak połączenia z bazą – otwórz stronę po zalogowaniu na claude.ai.';$('#g-msg').className='msg err'}
+  $('#g-go').onclick=async()=>{
+    const code=$('#g-code').value.trim().toUpperCase(),nick=$('#g-nick').value.trim(),m=$('#g-msg');m.className='msg';
+    if(!code||!nick){m.textContent='Wpisz kod i nick.';m.className='msg err';return}
+    if(!db){m.textContent='Brak połączenia z bazą.';m.className='msg err';return}
+    try{const d=await db.doc('codes/'+code).get();
+      if(d.exists&&d.data().active){LS.set('rts_access',{code,nick});showStudio(nick)}
+      else{m.textContent='Ten kod nie działa. Sprawdź go albo poproś admina o nowy.';m.className='msg err'}
+    }catch(e){m.textContent='Nie udało się sprawdzić kodu ('+(e.code||e.message)+').';m.className='msg err'}
+  };
+}
+boot();
+</script>

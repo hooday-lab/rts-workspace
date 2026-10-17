@@ -1,0 +1,31 @@
+
+@font-face{font-family:BC;font-weight:600;src:url(@FONTS@/barlow-condensed-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:BC;font-weight:600;src:url(@FONTS@/barlow-condensed-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:BC;font-weight:800;src:url(@FONTS@/barlow-condensed-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:BC;font-weight:800;src:url(@FONTS@/barlow-condensed-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:BA;font-weight:400;src:url(@FONTS@/barlow-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:BA;font-weight:400;src:url(@FONTS@/barlow-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:BA;font-weight:600;src:url(@FONTS@/barlow-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:BA;font-weight:600;src:url(@FONTS@/barlow-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--surface:#0F1012;--ink:#F4F4F2;--ink2:#B4BAC2;--muted:#7D848D;--accent:#E5242B;--neutral:#6B7078;--hair:#2A2D32;--win:#F2F2F2}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;background:var(--surface)}
+body{font-family:BA,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.card{position:relative;width:1920px;height:1080px;overflow:hidden;padding:76px 96px 52px;display:flex;flex-direction:column;
+ background:radial-gradient(1300px 700px at 0% 0%,rgba(229,36,43,.20),transparent 62%),var(--surface)}
+.stripe{position:absolute;left:0;top:0;width:100%;height:14px;display:flex}
+.stripe i{flex:1;background:var(--accent)} .stripe i:nth-child(2){background:#fff}
+.tag{font:800 30px BC;letter-spacing:5px;text-transform:uppercase;color:var(--ink2);display:flex;align-items:center;gap:14px}
+.tag i{width:16px;height:16px;border-radius:50%;background:var(--accent);display:block}
+h1{font:800 112px/0.95 BC;text-transform:uppercase;letter-spacing:1px;margin-top:14px}
+.sub{font:600 38px/1.2 BA;color:var(--ink2);margin-top:14px;max-width:1500px}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+footer{height:60px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--hair);padding-top:14px}
+.src{font:400 22px BA;color:var(--muted);max-width:1180px;line-height:1.25}
+.brand{text-align:right} .brand b{display:block;font:800 32px BC;letter-spacing:3px}
+.brand span{font:400 20px BA;color:var(--muted)}
+.pill{position:absolute;right:96px;top:70px;border:3px solid var(--accent);color:var(--ink);font:800 26px BC;letter-spacing:3px;padding:8px 20px;border-radius:6px;text-transform:uppercase;background:rgba(229,36,43,.12)}
+.wm{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%) rotate(-11deg);font:800 170px BC;letter-spacing:10px;color:rgba(255,255,255,.055);white-space:nowrap;pointer-events:none;text-transform:uppercase}
+.legend{display:flex;gap:34px;font:600 24px BA;color:var(--ink2);align-items:center}
+.legend span{display:flex;align-items:center;gap:10px}
+.sw{width:22px;height:22px;border-radius:4px;display:inline-block}
