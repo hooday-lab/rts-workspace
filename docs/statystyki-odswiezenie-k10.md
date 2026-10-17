@@ -33,3 +33,10 @@ Dokument Firestore: `{json: "<JSON jako tekst>", uploadedAt, by}`. Pola JSON:
 Źródło delty: `api_fixtures_raw.raw` (`players`, `statistics`, `events`, `lineups`). `goals.conceded` u bramkarzy bywa null: wtedy gole rywala (bramkarz grał 90').
 Ocena „0” (1–3 minuty gry) nie wchodzi do średniej.
 Zapis: konto serwisowe `FIREBASE_SERVICE_ACCOUNT` (Firestore REST, `PATCH documents/data/stats`).
+
+## Odświeżenie częściowe po K11 (17.10.2026, 05:27 UTC, Claude Code)
+- Delta 4 meczów: Widzew 0:0 Wisła Kr. (K11), Wieczysta 1:2 Raków (K11) oraz zaległe po 12.10: Radomiak 2:3 Motor (K10), GKS 2:1 Wieczysta (K3, wcześniej NS).
+- fx 89→92 (90 FT, 2 NS z K4), tstats 172→180, goals 257→268, players 426→429 (nowi: Steve Kingue, Ioan Vermeșan, N. Zätterström), upcoming 19→16, meta lastRound=11 (decyzja Bartka mimo 2/9 meczów K11), generatedAt 2026-10-17.
+- Weryfikacja: Widzew 11 meczów, 1W-7R-3P, 10 pkt, dom 0-4-2 (zgodne z tablicą); suma id zawodników 79838393.
+- Kopia stanu po K10: Firestore `data/stats_backup_k10`. Skrypty: `studio/delta/`.
+- Do zrobienia: druga delta po pozostałych 7 meczach K11 (17–19.10).

@@ -24,7 +24,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 ## Stan bieżący (17.10.2026)
 - #377 (Widzew 0:0 Wisła Kraków): live niedziela 19.10, 19:10, link https://youtu.be/K8Vz0AFqbZc. Faza 1, 2 i 3 wysłane. Do zrobienia: Bartek ustawia tytuł i opis na YT; po live `/377`; faza 4 #377 do decyzji Bartka.
 - **Górnik (K12, 23.10, dom): faza 1 do przygotowania po odświeżeniu danych po K11, najpóźniej D−5 (18.10).**
-- Dane Studio: Firestore `data/stats` po K10 (12.10). Do odświeżenia po K11 (Wisła 0:0 jest w bazie) i po meczach K11 z 17–19.10. Metoda: `statystyki-odswiezenie-k10.md`.
+- Dane Studio: Firestore `data/stats` odświeżone 17.10 częściowo po K11 (2/9 meczów + zaległe Radomiak–Motor i GKS–Wieczysta; lastRound=11). Druga delta po meczach K11 z 17–19.10 (Górnik–Piast 18.10). Metoda i skrypty: `statystyki-odswiezenie-k10.md`, `studio/delta/`.
 - Zadanie zaplanowane do ustawienia: sprawdzenie bazy 30 min po meczu Widzewa (ponawiać co godzinę).
 - Przeniesienie do Claude Code (17.10): prywatne repo `rts-workspace` (ten), środowisko `RTS`, sekrety w zmiennych (`../ZMIENNE.md`). Webhooki Discorda do unieważnienia i wygenerowania na nowo.
 - Rename brandu na RTS Stats Studio (RSS) wdrożony 17.10 (commit `4f5dbb3` w `hooday-lab/rtsstat`).
@@ -36,6 +36,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 - **Obieg:** paczka 1 Górnika; decyzja o fazie 4 #377.
 
 ## Log ustaleń (najnowsze na górze)
+- **17.10.2026 (rano):** `data/stats` częściowo po K11 (fx 92, tstats 180, goals 268, players 429, lastRound=11); kopia K10 w `data/stats_backup_k10`; zapis kontem serwisowym z Claude Code (bez Chrome).
 - **17.10.2026:** przeniesienie do Claude Code; nazwa RTS Stats Studio (RSS); dokumenty kopiowane do prywatnego repo bez webhooków.
 - **16.10.2026:** faza 3 #377 po 0:0 (wysłana ok. 22:50): karta „Mecz" z posiadaniem, strzałami, rożnymi i xG; Wisła nie wykorzystała karnego w 66. min; Widzew po K11: 1W-7R-3P, 10 pkt, u siebie 0-4-2, ósmy mecz bez wygranej. Zasada 5: bez próśb o typowanie. Zapowiedź live + faza 2 wysłane ok. 12:50. Poprawka: curl z `--form-string payload_json=...`.
 - **15.10.2026:** live #377 w niedzielę 19.10 o 19:10 (1910); faza 4 #376 odwołana.
