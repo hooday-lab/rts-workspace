@@ -8,9 +8,10 @@ Repo prywatne. Źródło prawdy projektu. Czytaj na początku KAŻDEJ sesji: `do
 - Po ostatniej odpowiedzi na pytania zapytaj: "czy chcesz coś dodać?", dopiero potem działaj.
 - Konta: X https://x.com/rozmowysportowe, YouTube @RozmowyTylkoSportowe, FB. Głównie X + FB, dom podcastu = YouTube.
 - Patryk publikuje posty. Dostaje gotowe paczki (bez placeholderów) na Discordzie. Bartek niczego mu nie wkleja.
+- **ZASADA NADRZĘDNA: nic nie wychodzi samo.** Wiadomości do Patryka na Discord wysyłam WYŁĄCZNIE po wyraźnym zatwierdzeniu przez Bartka ostatecznych wersji (teksty + karty), pokazanych wcześniej w czacie. Szczegóły: `docs/zasady-paczek.md` pkt 7.
 
 ## Marka
-- Pełna nazwa narzędzia: **RTS Stats Studio** (skrót RSS). Seria na kartach: "RTS Stats". Hasztag: #RTSstat.
+- Pełna nazwa narzędzia: **RTS Stats Studio** (skrót RSS). Seria na kartach: "RTS Stats". Hasztag: #RTSstats.
 - Studio: repo `hooday-lab/rtsstat` (publiczne, GitHub Pages), Firebase `rtsstat-55616`. Kod = `index.html`.
 
 ## Zasady (szczegóły w docs/)

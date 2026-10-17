@@ -21,7 +21,7 @@ Przy wyborze klipów Claude pilnuje długości 30 s – 2 min; jeśli fragment w
 ## Gdzie co trafia (webhooki w `integracje.md`)
 - **Rekomendacje klipów** → Discord **#fragmenty-do-wycięcia** (webhook „RTS Klipy"), zakończone **ankietą i `@everyone`** (patrz krok 2).
 - **Wszystko inne z procedury** (tytuł i opis do ręcznej zmiany po błędzie na YouTube, komunikaty o błędach, wyniki analizy) → webhook **„Analizator odcinka"**.
-- Gotowe posty dla Patryka → webhook „RTS Gotowiec", dopiero po wyborze klipów przez ekipę.
+- Gotowe posty dla Patryka → webhook „RTS Gotowiec", dopiero po wyborze klipów przez ekipę **i po zatwierdzeniu ostatecznych wersji przez Bartka** (`zasady-paczek.md` pkt 7).
 - **Tytuł i opis z rozdziałami zawsze także w czacie** (karta kopiowania), niezależnie od wysyłki na Discord.
 
 ## Komendy (ustalone 14.10)

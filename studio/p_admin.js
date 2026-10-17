@@ -26,7 +26,7 @@ async function renderAdmin(){
     try{await fs.doc('members/'+em).set({role:$('#m-role').value,addedBy:ctx.email,addedAt:new Date().toISOString()});$('#m-email').value='';m.textContent='Dodano '+em;m.className='msg ok';loadMembers()}
     catch(e){m.textContent='Błąd zapisu ('+(e.code||e.message)+')';m.className='msg err'}
   };
-  $('#m-copy').onclick=async()=>{const t=`Cześć! Mamy w Rozmowach Tylko Sportowych narzędzie do robienia kart ze statystykami (#RTSstat): ${siteUrl()}\nWejdź, kliknij „Zaloguj przez Google" i wybierz konto, którego adres mi podałeś/aś. Jeśli nie wpuszcza, napisz do mnie.`;
+  $('#m-copy').onclick=async()=>{const t=`Cześć! Mamy w Rozmowach Tylko Sportowych narzędzie do robienia kart ze statystykami (#RTSstats): ${siteUrl()}\nWejdź, kliknij „Zaloguj przez Google" i wybierz konto, którego adres mi podałeś/aś. Jeśli nie wpuszcza, napisz do mnie.`;
     try{await navigator.clipboard.writeText(t);$('#m-copymsg').textContent=' Skopiowano'}catch(e){$('#m-copymsg').textContent=' Nie udało się skopiować – zaznacz ręcznie'}};
   $('#bgf').onchange=async e=>{
     const f=e.target.files[0];if(!f)return;const m=$('#bg-msg');m.className='msg';

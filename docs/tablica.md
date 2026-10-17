@@ -17,7 +17,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 ## Zasady wspólne
 - **Obieg odcinka wg `obieg-komunikacji.md`: model 4 FAZ** (przed meczem / bliska przedmeczowa / pomeczowa / po podcaście). Patryk dostaje na Discordzie 4 osobne paczki na mecz, każda w całości gotowa do publikacji i z kartami 4:5. Link do live znamy przed fazą 1. Wyjątek: faza 4 #376 odwołana (Bartek 15.10).
 - **Twarde zasady paczek** (`zasady-paczek.md`): link do audycji, karta razem z postem, dwa przejścia, log po wysyłce, bez próśb o typowanie.
-- Głos RTS: fakt → reakcja deadpan → pytanie do kibiców, pisane jak człowiek. Liczby tylko z bazy. Hasztag serii **#RTSstat**. Nazwa narzędzia: **RTS Stats Studio** (RSS).
+- Głos RTS: fakt → reakcja deadpan → pytanie do kibiców, pisane jak człowiek. Liczby tylko z bazy. Hasztag serii **#RTSstats**. Nazwa narzędzia: **RTS Stats Studio** (RSS).
 - Posty zaproszeniowe (ClubFantasy): luźniej, najpierw konkret, bez hard sellu (`wpisy-clubfantasy.md`).
 - **Procedura po odcinku** (`procedura-po-odcinku.md`): komendy `/NNN`, `/NNN_zmien`, `/NNN_fragmenty`.
 
@@ -26,6 +26,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 - **Górnik (K12, 23.10, dom): faza 1 do przygotowania po odświeżeniu danych po K11, najpóźniej D−5 (18.10).**
 - Dane Studio: Firestore `data/stats` po K10 (12.10). Do odświeżenia po K11 (Wisła 0:0 jest w bazie) i po meczach K11 z 17–19.10. Metoda: `statystyki-odswiezenie-k10.md`.
 - Zadanie zaplanowane do ustawienia: sprawdzenie bazy 30 min po meczu Widzewa (ponawiać co godzinę).
+- **Wysyłka na Discord tylko po zatwierdzeniu Bartka** (od 17.10): Claude pokazuje ostateczne wersje w czacie i czeka na „tak”.
 - Przeniesienie do Claude Code (17.10): prywatne repo `rts-workspace` (ten), środowisko `RTS`, sekrety w zmiennych (`../ZMIENNE.md`). Webhooki Discorda do unieważnienia i wygenerowania na nowo.
 - Rename brandu na RTS Stats Studio (RSS) wdrożony 17.10 (commit `4f5dbb3` w `hooday-lab/rtsstat`).
 
@@ -36,6 +37,7 @@ Uwaga: nie wszystkie pliki z tej mapy są już skopiowane do `docs/`; brakujące
 - **Obieg:** paczka 1 Górnika; decyzja o fazie 4 #377.
 
 ## Log ustaleń (najnowsze na górze)
+- **17.10.2026 (później):** decyzja Bartka: (1) **nic nie wychodzi samo**: wiadomości do Patryka na Discord wysyłane wyłącznie po jego zatwierdzeniu ostatecznych wersji (`zasady-paczek.md` pkt 7); (2) hasztag serii zmieniony z #RTSstat na **#RTSstats** (dokumenty, Studio, karty); (3) plan przeniesienia brakujących plików z claude.ai: `docs/plan-migracji-plikow.md`.
 - **17.10.2026:** przeniesienie do Claude Code; nazwa RTS Stats Studio (RSS); dokumenty kopiowane do prywatnego repo bez webhooków.
 - **16.10.2026:** faza 3 #377 po 0:0 (wysłana ok. 22:50): karta „Mecz" z posiadaniem, strzałami, rożnymi i xG; Wisła nie wykorzystała karnego w 66. min; Widzew po K11: 1W-7R-3P, 10 pkt, u siebie 0-4-2, ósmy mecz bez wygranej. Zasada 5: bez próśb o typowanie. Zapowiedź live + faza 2 wysłane ok. 12:50. Poprawka: curl z `--form-string payload_json=...`.
 - **15.10.2026:** live #377 w niedzielę 19.10 o 19:10 (1910); faza 4 #376 odwołana.

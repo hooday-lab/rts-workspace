@@ -11,11 +11,11 @@ Techniczne wpisy integracji projektu. Nie jest to plik treści — tylko konfigu
 
 ## Discord — webhook na gotowce (kanał Patryka)
 **Status: DZIAŁA (potwierdzone testem 10.10.2026, użyte 11.10, 13.10, 16.10).**
-- **Cel:** automatyczna wysyłka gotowych pakietów treści (zapowiedzi, karty RTS Stats, posty pomeczowe itd.) na kanał Patryka, gdy w danym oknie odcinka nie zostają żadne placeholdery do uzupełnienia (gość, wynik, link, bio).
+- **Cel:** wysyłka (wyłącznie po zatwierdzeniu Bartka, `zasady-paczek.md` pkt 7) gotowych pakietów treści (zapowiedzi, karty RTS Stats, posty pomeczowe itd.) na kanał Patryka, gdy w danym oknie odcinka nie zostają żadne placeholdery do uzupełnienia (gość, wynik, link, bio).
 - **Wymóg sieciowy:** `discord.com` musi być na liście dozwolonych domen środowiska. `cdn.discordapp.com` (linki do załączników) bywa blokowany — obrazki od Bartka muszą przyjść jako załącznik w czacie.
 - **Jak wysyłam:** POST `multipart/form-data` na URL ze zmiennej: pole `payload_json` = `{"content": "<tekst>", "username": "RTS · paczki dla Patryka", "allowed_mentions": {"parse": []}}` oraz `files[0]=@plik.png` (karta 4:5). **W curl używać `--form-string payload_json=...`** (cudzysłowy w treści psuły `-F`; nagłówek dostał 400). Discord limituje wiadomość do 2000 znaków — **jeden post = jedna wiadomość**: nagłówek (nazwa posta), godzina publikacji, tekst w bloku kodu (łatwe kopiowanie), karta jako załącznik. Każda paczka zaczyna się wiadomością-nagłówkiem (faza, mecz, link live) i nagłówek wysyłamy PRZED postami.
 - **Twarde zasady paczek (`zasady-paczek.md`):** (1) każdy post odsyłający do podcastu ma w treści link do audycji na YouTube; (2) post z elementem z RTS Stats Studio wysyłamy razem z kartą 4:5, także w korektach. Przed wysyłką sprawdzam: czy każdy post z kartą ma załącznik (HTTP 200 przy pliku, 204 bez pliku) i czy każdy post o live/odcinku ma link.
-- **Zasada automatycznej wysyłki (10.10.2026):** gdy w oknie odcinka wszystkie placeholdery zostają uzupełnione, wysyłam kompletny gotowiec bez dodatkowego pytania o zgodę. Bartek niczego nie wkleja; paczki 3 i 4 po komendzie Bartka („faza 3 + wynik", „faza 4").
+- **Zasada wysyłki (zmieniona 17.10.2026, zastępuje „automatyczną wysyłkę” z 10.10):** NIC NIE WYCHODZI SAMO. Gotowiec wysyłam na kanał Patryka dopiero po jednoznacznym zatwierdzeniu przez Bartka ostatecznych wersji (teksty + karty pokazane wcześniej w czacie). Zmiana czegokolwiek po zatwierdzeniu = nowe zatwierdzenie. Komendy z danymi („faza 3 + wynik”, „faza 4”) uruchamiają tylko przygotowanie. Zaplanowane zadania nie wysyłają na ten kanał. Bartek niczego Patrykowi nie wkleja.
 - **Poza obiegiem Patryka:** posty o ClubFantasy (`wpisy-clubfantasy.md`) nie idą na ten webhook (decyzja Bartka 12.10).
 
 ## Discord — webhook „RTS Klipy" (#fragmenty-do-wycięcia)
@@ -38,3 +38,4 @@ Techniczne wpisy integracji projektu. Nie jest to plik treści — tylko konfigu
 - **14.10.2026:** Bartek przekazał webhook „Analizator odcinka".
 - **16.10.2026:** zapowiedź live #377 + faza 2 Wisły (4 posty; nagłówek po postach przez błąd 400) oraz faza 3 #377 po 0:0 (nagłówek + 4 posty, HTTP 200). Szczegóły: `wpisy-377-zapowiedz-faza2.md`, `wpisy-377-faza3.md`.
 - **17.10.2026:** przeniesienie projektu do Claude Code; webhooki wyjęte z dokumentów, trafiają do zmiennych środowiska.
+- **17.10.2026:** decyzja Bartka: wysyłka na kanał Patryka wyłącznie po jego zatwierdzeniu ostatecznych wersji; nic nie wychodzi samo (`zasady-paczek.md` pkt 7). Hasztag serii zmieniony na #RTSstats.

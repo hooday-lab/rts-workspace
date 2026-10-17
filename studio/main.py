@@ -21,7 +21,7 @@ def main():
     st = Store(a.data); wid = st.widzew_id()
     rows_by = {s: an.percentiles(st.players(s)) for s in st.seasons}
     cur = rows_by[st.current]
-    src = f"#RTSstat · dane: API-Football · sezon {cards.season_label(st.current)}"
+    src = f"#RTSstats · dane: API-Football · sezon {cards.season_label(st.current)}"
     nxt = [f for f in st.fixtures(st.current) if f["fixture"]["status"]["short"] == "NS" and wid in (f["teams"]["home"]["id"], f["teams"]["away"]["id"])]
     nxt.sort(key=lambda f: f["fixture"]["timestamp"])
     next_opp = None

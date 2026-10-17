@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""#RTSstat — karta 'Liczba przed Piastem' dopasowana do tła RTS (logo w prawym górnym rogu, lewy panel wolny)."""
+"""#RTSstats — karta 'Liczba przed Piastem' dopasowana do tła RTS (logo w prawym górnym rogu, lewy panel wolny)."""
 import os, sys, re
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "cards")
@@ -54,11 +54,11 @@ def build(bg):
     lg='<div class="lg"><span><i class="sw" style="background:#E5242B;box-shadow:0 0 0 2px #fff inset"></i>remis</span><span><i class="sw" style="background:#F2F2F2"></i>wygrana</span><span><i class="sw" style="border:3px solid #cfcfd2"></i>porażka</span><span>w kafelku: kolejka · wynik z perspektywy drużyny</span></div>'
     return f"""<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>Liczba przed Piastem</title><style>{CSS2.replace('%BG%',bg)}</style></head>
 <body><div class="card"><div class="bg"></div>
-<div class="wrap"><div class="tag"><i></i>#RTSstat · Liczba przed rywalem</div><h1>6 remisów kontra 1</h1>
+<div class="wrap"><div class="tag"><i></i>#RTSstats · Liczba przed rywalem</div><h1>6 remisów kontra 1</h1>
 <p class="sub">Widzew – najwięcej remisów w lidze. Piast – tylko jeden. Któraś seria pęknie w niedzielę.</p>
 <div class="when">Piast – Widzew<span>niedziela 11.10 · 14:45 · Gliwice</span></div>
 <main>{main}{lg}</main>
-<div class="foot">#RTSstat · stan po 9. kolejce Ekstraklasy 2026/27 · dane: API-Football (kolejki 1–9)</div></div></div></body></html>"""
+<div class="foot">#RTSstats · stan po 9. kolejce Ekstraklasy 2026/27 · dane: API-Football (kolejki 1–9)</div></div></div></body></html>"""
 
 if __name__=="__main__":
     from playwright.sync_api import sync_playwright

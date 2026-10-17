@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""#RTSstat — karta 'Liczba przed Piastem' z podmienialnym tłem.
+"""#RTSstats — karta 'Liczba przed Piastem' z podmienialnym tłem.
 Użycie: python build/piast_card.py [sciezka_do_tla.png] [nazwa_wyjscia]
 Tło: PNG/JPG 1920x1080 bez tekstu. Reszta (ciemna warstwa, treść, pasek, stopka) jest nakładana."""
 import os, sys, re
@@ -65,10 +65,10 @@ def build(bg=None):
 <body><div class="card"><div class="bg" style="{bgcss}"></div><div class="scrim"></div>
 <div class="stripe"><i></i><i></i><i></i></div>
 <div class="when">Piast – Widzew<span>niedziela 11.10 · 14:45 · Gliwice</span></div>
-<header><div class="tag"><i></i>#RTSstat · Liczba przed rywalem</div><h1>6 remisów kontra 1</h1>
+<header><div class="tag"><i></i>#RTSstats · Liczba przed rywalem</div><h1>6 remisów kontra 1</h1>
 <p class="sub">Widzew – najwięcej remisów w lidze. Piast – tylko jeden. Któraś seria pęknie w niedzielę.</p></header>
 <main>{main}</main>
-<footer><div class="src">#RTSstat · stan po 9. kolejce Ekstraklasy 2026/27 · dane: API-Football (kolejki 1–9)</div><div class="brand"><b>ROZMOWY TYLKO SPORTOWE</b><span>od kibiców dla kibiców</span></div></footer></div></body></html>"""
+<footer><div class="src">#RTSstats · stan po 9. kolejce Ekstraklasy 2026/27 · dane: API-Football (kolejki 1–9)</div><div class="brand"><b>ROZMOWY TYLKO SPORTOWE</b><span>od kibiców dla kibiców</span></div></footer></div></body></html>"""
 
 if __name__=="__main__":
     from playwright.sync_api import sync_playwright

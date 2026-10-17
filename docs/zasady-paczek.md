@@ -1,6 +1,6 @@
 # Twarde zasady paczek dla Patryka (obowiązują każdy post, każdą wysyłkę)
 
-Źródło: decyzje Bartka z 10.10.2026 (zasady 1–4) i 16.10.2026 (zasada 5). Czytają to wszystkie czaty i zaplanowane zadania przed przygotowaniem lub wysłaniem paczki.
+Źródło: decyzje Bartka z 10.10.2026 (zasady 1–4), 16.10.2026 (zasada 5) i 17.10.2026 (zasady 6–7). Czytają to wszystkie czaty i zaplanowane zadania przed przygotowaniem lub wysłaniem paczki.
 
 ## 1. Link do audycji
 **Wszędzie, gdzie post odsyła do podcastu (zapowiedź live, przypomnienie, „wieczorem rozbieramy mecz", typowanie „sprawdzimy na live", podziękowanie, klip), w treści MUSI być link do audycji na YouTube** w formie `https://youtu.be/...` bez końcówki śledzącej. Link do odcinka znamy przed fazą 1. Przykład #376: https://youtu.be/_yu5E66ALvk.
@@ -27,4 +27,15 @@ Po każdej wysyłce wpisuję w `integracje.md` (log): które posty, które karty
 - Typy „Zgadnij liczbę" i „Typowanie wyniku" w `wpisy.md` i `wpisy-wisla-faza1.md` uznajemy za wycofane.
 
 ## 6. Nazwa narzędzia (decyzja Bartka 17.10.2026)
-Pełna nazwa: **RTS Stats Studio**, skrót **RSS**. Seria na kartach: „RTS Stats". Hasztag: #RTSstat.
+Pełna nazwa: **RTS Stats Studio**, skrót **RSS**. Seria na kartach: „RTS Stats". Hasztag: #RTSstats. (do 17.10.2026 stosowaliśmy #RTSstat; od teraz obowiązuje wyłącznie #RTSstats)
+
+## 7. Wysyłka na Discord tylko po zatwierdzeniu Bartka (decyzja Bartka 17.10.2026)
+**Nic nie wychodzi samo.** Żadna wiadomość do Patryka (webhook „RTS Gotowiec") nie jest wysyłana bez wyraźnego zatwierdzenia Bartka dla ostatecznej wersji.
+1. Claude przygotowuje paczkę i **pokazuje Bartkowi w czacie wersje ostateczne**: pełne teksty każdego posta (w tej formie, w jakiej trafią do bloku kodu), godziny publikacji oraz podgląd każdej karty 4:5.
+2. Claude pyta wprost o zatwierdzenie, np. „Wysłać paczkę 3 do Patryka? (tak / popraw)”.
+3. **Dopiero po jednoznacznym „tak” / „wyślij” Bartka** Claude robi POST na webhook. Bez odpowiedzi = bez wysyłki.
+- Zatwierdzenie dotyczy **dokładnie tej wersji**. Każda zmiana tekstu, karty lub godziny po zatwierdzeniu wymaga ponownego zatwierdzenia.
+- Dotyczy też **korekt, ponowień, poprawek i wiadomości-nagłówków**. Dotyczy też zaplanowanych zadań i sesji uruchamianych bez Bartka: one **nigdy** nie wysyłają na kanał Patryka, tylko przygotowują i powiadamiają Bartka.
+- Komendy z danymi (np. „faza 3 + wynik”, „faza 4”) uruchamiają **przygotowanie** paczki, nie jej wysyłkę.
+- Żadnych wiadomości próbnych ani testowych na kanał Patryka bez zgody Bartka.
+- Po wysyłce log w `integracje.md` (zasada 4) z adnotacją, kiedy Bartek zatwierdził.

@@ -1,6 +1,6 @@
 # Obieg komunikacji odcinka — playbook RTS
 
-> **STATUS: OBOWIĄZUJE od 27.09.2026 do odwołania. Od 10.10.2026 model 4 FAZ (zastępuje model 3 posiedzeń) i KARTY GOTOWE W PACZKACH (zastępuje „Patryk robi plansze sam"). Paczki na Discord wysyła Claude (webhook), nie Bartek.** Wszystkie sesje przygotowują materiały zgodnie z tym obiegiem.
+> **STATUS: OBOWIĄZUJE od 27.09.2026 do odwołania. Od 10.10.2026 model 4 FAZ (zastępuje model 3 posiedzeń) i KARTY GOTOWE W PACZKACH (zastępuje „Patryk robi plansze sam"). Paczki na Discord wysyła Claude (webhook), nie Bartek, ale WYŁĄCZNIE po zatwierdzeniu przez Bartka ostatecznych wersji (od 17.10.2026; `zasady-paczek.md` pkt 7).** Wszystkie sesje przygotowują materiały zgodnie z tym obiegiem.
 
 Playbook komunikacji wokół odcinka: co, kiedy i gdzie publikować — w formie checklisty do odhaczania.
 
@@ -35,10 +35,10 @@ Faza 4 jednego meczu przechodzi w fazę 1 następnego. Wariant „live tego same
 | --- | --- |
 | **Patryk** | Publikacja i planowanie postów (X, Facebook, Instagram), stories, obsługa 4 faz. **Dostaje na Discordzie 4 osobne paczki: teksty + gotowe karty 4:5.** Nie generuje kart sam (Studio awaryjnie) |
 | **Bartek** | Uruchamia fazy 2–4 danymi (wynik, skład, temat klipów), klipy, tytuły i opisy na YouTube, rejestr odcinków, decyzje redakcyjne; administrator RTS Stats Studio. **Niczego nie wkleja Patrykowi** |
-| **Claude** | Teksty i karty 4:5 do każdej paczki, **wysyłka paczek na Discord przez webhook** (`integracje.md`), aktualizacja dokumentów, przypomnienia (`przypomnienia.md`) |
+| **Claude** | Teksty i karty 4:5 do każdej paczki, **wysyłka paczek na Discord przez webhook po zatwierdzeniu Bartka** (`integracje.md`, `zasady-paczek.md` pkt 7), aktualizacja dokumentów, przypomnienia (`przypomnienia.md`) |
 | **Prowadzący** | W trakcie live: wyświetlanie komentarzy z czatu StreamYard na ekranie |
 
-Zasada przekazania: Claude przygotowuje paczkę (po jednej wiadomości na post: godzina publikacji, tekst w bloku do skopiowania, karta 4:5 w załączniku) i sam wysyła ją na Discord. Zmiany w tekstach po drodze Patryk zgłasza Bartkowi.
+Zasada przekazania: Claude przygotowuje paczkę (po jednej wiadomości na post: godzina publikacji, tekst w bloku do skopiowania, karta 4:5 w załączniku), pokazuje ją Bartkowi w czacie i wysyła na Discord dopiero po jego wyraźnym zatwierdzeniu ostatecznych wersji. Nic nie wychodzi samo. Zmiany w tekstach po drodze Patryk zgłasza Bartkowi.
 
 **Cele na najbliższe 2–3 miesiące:** więcej widzów na live, więcej subskrypcji YouTube, mocniejsza marka i zasięg na X.
 
@@ -121,12 +121,12 @@ Gdy odstęp między ostatnim meczem a następnym jest krótki (np. piątek po ni
 
 ## Okno meczowe — karty RTS Stats w paczkach (dot. odcinków pomeczowych)
 
-W oknie meczowym karta **RTS Stats** jest stałym elementem każdej paczki — niezależnie od promocji samego odcinka. Hasztag **#RTSstat**. Karty przygotowuje Claude i dołącza do paczek jako gotowe PNG 4:5 (1080×1350), generowane kodem Studio (https://hooday-lab.github.io/rtsstat/) na danych z bazy ClubFantasy (SELECT); dobór typu karty zależy od kontekstu sportowego i od posta. Typy: Liczba przed rywalem, Mecz, Zawodnik, Porównanie, Dom i wyjazd, Własna liczba (+ Porównanie klubów, Mapa ligi, Własna liczba/fakt). Studio zostaje narzędziem ekipy i awaryjnym.
+W oknie meczowym karta **RTS Stats** jest stałym elementem każdej paczki — niezależnie od promocji samego odcinka. Hasztag **#RTSstats**. Karty przygotowuje Claude i dołącza do paczek jako gotowe PNG 4:5 (1080×1350), generowane kodem Studio (https://hooday-lab.github.io/rtsstat/) na danych z bazy ClubFantasy (SELECT); dobór typu karty zależy od kontekstu sportowego i od posta. Typy: Liczba przed rywalem, Mecz, Zawodnik, Porównanie, Dom i wyjazd, Własna liczba (+ Porównanie klubów, Mapa ligi, Własna liczba/fakt). Studio zostaje narzędziem ekipy i awaryjnym.
 
 - [ ] **Faza 1 — „Liczba przed rywalem"** (D−1): jedno porównanie Widzew vs rywal (bez pytania o typ)
 - [ ] **Faza 1, rano D — karta kontekstowa** (np. „Dom na opak")
 - [ ] **Faza 3 — „Mecz"** i **„Licznik"** (po meczu domowym, jeśli aktywny)
-- [ ] Liczby zweryfikowane z bazy; #RTSstat; w podtytule karty tylko twierdzenia sprawdzone na danych
+- [ ] Liczby zweryfikowane z bazy; #RTSstats; w podtytule karty tylko twierdzenia sprawdzone na danych
 
 ---
 
@@ -153,7 +153,7 @@ hook → lista „czego się spodziewać" (2–4 punkty, emoji dopasowane znacze
 
 **Hasztagi**
 - X: 2–3 (np. #Widzew #Ekstraklasa). Facebook: 1–2. Instagram: ~10 na końcu lub w pierwszym komentarzu.
-- RTS Stats: **#RTSstat** (+ #Widzew i ew. 1 tematyczny).
+- RTS Stats: **#RTSstats** (+ #Widzew i ew. 1 tematyczny).
 - Na X/IG tagi z diakrytykami i bez to różne tagi.
 
 **Zasady redakcyjne (głos „my" kibiców)**
@@ -168,7 +168,7 @@ hook → lista „czego się spodziewać" (2–4 punkty, emoji dopasowane znacze
 **Gotowce do skopiowania (WAŻNE)**
 - Treść do skopiowania = wyłącznie czysty, gotowy do wklejenia tekst posta. Zero elementów zdradzających AI: żadnych etykiet „Wariant A/B", nagłówków, komentarzy w nawiasach, uwag, podpowiedzi, meta-opisów wewnątrz kopiowanego bloku.
 - Każdy post = osobny gotowiec (osobna wiadomość na Discordzie z blokiem kodu do skopiowania). Wskazówki i uwagi Claude umieszcza POZA blokiem do skopiowania.
-- Paczki dla Patryka: **jedna faza = jedna paczka** (wiadomość-nagłówek + po jednej wiadomości na post z kartą 4:5), wysyłana przez Claude na Discord.
+- Paczki dla Patryka: **jedna faza = jedna paczka** (wiadomość-nagłówek + po jednej wiadomości na post z kartą 4:5), wysyłana przez Claude na Discord po zatwierdzeniu Bartka.
 
 ---
 

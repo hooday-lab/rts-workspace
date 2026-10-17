@@ -166,7 +166,7 @@ function shell(inner,bg){
 }
 function header(p){
   let s='';const x=104,maxW=1290;
-  s+=`<rect x="${x}" y="88" width="40" height="6" fill="#fff"/>`+tx(x+54,98,'#RTSstat · '+(p.tag||''),{size:26,fam:'BC',w:800,ls:4,up:true});
+  s+=`<rect x="${x}" y="88" width="40" height="6" fill="#fff"/>`+tx(x+54,98,'#RTSstats · '+(p.tag||''),{size:26,fam:'BC',w:800,ls:4,up:true});
   const title=String(p.title||'').toUpperCase();
   let size=96,lines=[title];
   while(size>60&&mw(title,size,'BC',800)>maxW)size-=4;
@@ -189,7 +189,7 @@ function header(p){
   return {svg:`<g filter="url(#sh)">${s}</g>`,bottom:by};
 }
 function footer(p){return `<g filter="url(#sh)">${tx(104,1000,p.foot||'',{size:20,fam:'BA',w:400,fill:'#e9cfd0'})}</g>`}
-function defFoot(extra){return `#RTSstat · stan po ${lastRound}. kolejce Ekstraklasy ${D.meta.season} · dane: API-Football`+(extra?' · '+extra:'')}
+function defFoot(extra){return `#RTSstats · stan po ${lastRound}. kolejce Ekstraklasy ${D.meta.season} · dane: API-Football`+(extra?' · '+extra:'')}
 
 /* --- rival --- */
 const RM={
@@ -283,7 +283,7 @@ const rival={
     s+=tx(lx,ly,'w kafelku: kolejka · wynik z perspektywy drużyny',{size:22,fam:'BA',w:600,fill:'#f1dede'})+`</g>`;
     return shell(s+footer(p),bg);
   },
-  post(p){return `${p.title}.\n\n${p.sub}\n${p.date1?p.date1+' · '+p.date2+'\n':''}\nA Wy co typujecie? 👇\n#RTSstat #Widzew`}
+  post(p){return `${p.title}.\n\n${p.sub}\n${p.date1?p.date1+' · '+p.date2+'\n':''}\nA Wy co typujecie? 👇\n#RTSstats #Widzew`}
 };
 
 /* --- mecz --- */
@@ -340,7 +340,7 @@ const matchT={
     // pasek terminu
     return shell(s+footer(p),bg);
   },
-  post(p){const f=fxById[p.fid];return `${p.title}.\n\n${p.sub}\n\nCo z tego meczu zostaje Wam w głowie? 👇\n#RTSstat #Widzew`}
+  post(p){const f=fxById[p.fid];return `${p.title}.\n\n${p.sub}\n\nCo z tego meczu zostaje Wam w głowie? 👇\n#RTSstats #Widzew`}
 };
 
 /* --- zawodnik --- */
@@ -405,7 +405,7 @@ const player={
     });
     return shell(s+footer(p),bg);
   },
-  post(p){const r=PI[p.pid];return `${r[1]}.\n\n${p.sub}\n\nKtóra z tych liczb robi na Was największe wrażenie? 👇\n#RTSstat #Widzew`}
+  post(p){const r=PI[p.pid];return `${r[1]}.\n\n${p.sub}\n\nKtóra z tych liczb robi na Was największe wrażenie? 👇\n#RTSstats #Widzew`}
 };
 
 /* --- porównanie --- */
@@ -439,7 +439,7 @@ const cmp={
     });
     return shell(s+footer(p),bg);
   },
-  post(p){return `${p.title}.\n\n${p.sub}\n\nCzyja to będzie historia? 👇\n#RTSstat #Widzew`}
+  post(p){return `${p.title}.\n\n${p.sub}\n\nCzyja to będzie historia? 👇\n#RTSstats #Widzew`}
 };
 
 /* --- własna liczba + kopalnia faktów --- */
@@ -468,7 +468,7 @@ const fact={
   sugg(){return facts()},
   svg(p,bg){
     let s='';
-    s+=`<g filter="url(#sh)"><rect x="104" y="88" width="40" height="6" fill="#fff"/>`+tx(158,98,'#RTSstat · '+(p.tag||'Liczba'),{size:26,fam:'BC',w:800,ls:4,up:true});
+    s+=`<g filter="url(#sh)"><rect x="104" y="88" width="40" height="6" fill="#fff"/>`+tx(158,98,'#RTSstats · '+(p.tag||'Liczba'),{size:26,fam:'BC',w:800,ls:4,up:true});
     const big=String(p.big||''),fs=Math.min(520,Math.max(160,1500/Math.max(big.length,1)*1.15));
     const bw=mw(big,fs,'BC',800);
     s+=tx(104,700,big,{size:fs,fam:'BC',w:800});
@@ -480,7 +480,7 @@ const fact={
     s+='</g>';
     return shell(s+footer(p),bg);
   },
-  post(p){return `${p.big} – ${p.label}.\n\n${[p.l1,p.l2].filter(Boolean).join(' ')}\n\n#RTSstat #Widzew`}
+  post(p){return `${p.big} – ${p.label}.\n\n${[p.l1,p.l2].filter(Boolean).join(' ')}\n\n#RTSstats #Widzew`}
 };
 
 const TYPES={rival,match:matchT,player,cmp,fact};
@@ -635,7 +635,7 @@ async function loadCodes(){
       const tr=el(`<tr><td class="code">${esc(r.id)}</td><td>${esc(r.label)}</td><td>${r.active?'aktywny':'wyłączony'}</td><td class="actions"></td></tr>`);
       const ac=tr.querySelector('.actions');
       const wa=el(`<button class="btn sm">Kopiuj SMS/WhatsApp</button>`);
-      wa.onclick=async()=>{const t=`Cześć ${r.label}! Mamy w Rozmowach Tylko Sportowych narzędzie do robienia kart ze statystykami (#RTSstat). Wejdź w link, który wyślę osobno, wpisz kod ${r.id} i swój nick – i możesz robić plansze sam.`;try{await navigator.clipboard.writeText(t);wa.textContent='Skopiowano'}catch(e){prompt_fallback(t)}};
+      wa.onclick=async()=>{const t=`Cześć ${r.label}! Mamy w Rozmowach Tylko Sportowych narzędzie do robienia kart ze statystykami (#RTSstats). Wejdź w link, który wyślę osobno, wpisz kod ${r.id} i swój nick – i możesz robić plansze sam.`;try{await navigator.clipboard.writeText(t);wa.textContent='Skopiowano'}catch(e){prompt_fallback(t)}};
       const tg=el(`<button class="btn sm">${r.active?'Wyłącz':'Włącz'}</button>`);
       tg.onclick=async()=>{await db.doc('codes/'+r.id).update({active:!r.active});loadCodes()};
       const del=el(`<button class="btn sm">Usuń</button>`);

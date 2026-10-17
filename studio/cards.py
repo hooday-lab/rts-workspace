@@ -47,7 +47,7 @@ def fmt(v, d=0):
 def page(title, sub, main, src):
     return f"""<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>{title}</title><style>{CSS}</style></head>
 <body><div class="card"><div class="stripe"><i></i><i></i><i></i></div>
-<header><div class="tag"><i></i>#RTSstat</div><h1>{title}</h1><p class="sub">{sub}</p></header>
+<header><div class="tag"><i></i>#RTSstats</div><h1>{title}</h1><p class="sub">{sub}</p></header>
 <main>{main}</main>
 <footer><div class="src">{src}</div><div class="brand"><b>ROZMOWY TYLKO SPORTOWE</b><span>od kibiców dla kibiców</span></div></footer></div></body></html>"""
 
