@@ -18,6 +18,7 @@ Repo prywatne. Źródło prawdy projektu. Czytaj na początku KAŻDEJ sesji: `do
 - `obieg-komunikacji.md`: model 4 faz (przed meczem / M−3h / po meczu / po podcaście).
 - `procedura-po-odcinku.md`: komendy /NNN, /NNN_zmien, /NNN_fragmenty.
 - `editorial-voice`: głos "my", fakt → reakcja → pytanie, pisane jak człowiek.
+- Odmiana (szczegóły w `zasady-paczek.md`): nazwiska Michała Skwarko NIE odmieniamy (imię tak); kluby odmieniamy wg głównej nazwy i jej rodzaju (Wisła = ona).
 - Nie komunikujemy newsów (nie jesteśmy kontem newsowym). Liczby tylko z bazy.
 
 ## Sekrety (NIGDY w repo, tylko zmienne środowiska)

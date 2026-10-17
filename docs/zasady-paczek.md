@@ -28,3 +28,8 @@ Po każdej wysyłce wpisuję w `integracje.md` (log): które posty, które karty
 
 ## 6. Nazwa narzędzia (decyzja Bartka 17.10.2026)
 Pełna nazwa: **RTS Stats Studio**, skrót **RSS**. Seria na kartach: „RTS Stats". Hasztag: #RTSstat.
+
+## Odmiana nazw (Bartek, 17.10.2026)
+- **Michał Skwarko:** nazwiska nigdy nie odmieniamy (np. „rozmowa z Michałem Skwarko”, „Skwarko prowadzi”). Imię odmieniamy normalnie.
+- **Nazwy klubów odmieniamy według głównej nazwy** i jej rodzaju: „Widzew Łódź” → „Widzewa Łódź”, „z Widzewem Łódź”; „Wisła Kraków” → „Wisły Kraków”, „z Wisłą Kraków”. Człon dodatkowy (miasto) zostaje bez zmian. **Wisła to „ona”** (Wisła nie wykorzystała karnego, ona), nie „on”. Dotyczy też Wisły Płock.
+- Sprawdzamy to w drugim przejściu (styl) każdej paczki.
